@@ -28,7 +28,7 @@ export default function Home() {
       <main className={styles.main}>
         <h1>All Countries</h1>
         <p className="pt-3 text-gray-900 text-sm">IDR 50.000</p>
-        {fetchedCountries?.map((c) => (
+        {fetchedCountries && fetchedCountries?.map((c) => (
           <h3 className="pt-4" key={c.name.common}>{c.name.common}</h3>
         ))}
       </main>

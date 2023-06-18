@@ -105,7 +105,7 @@ export default function Home() {
             </nav>
 
             <div className="grid grid-cols-1 gap-4 px-6 xl:grid-cols-3">
-              {fetchedArticles?.artikel.map((c, index) => {
+              {fetchedData && fetchedArticles?.artikel.map((c, index) => {
                 // const content = c.content;
                 // const unescapedHtml = unescape(content);
                 // const sanitizedHtml = unescapedHtml.replace(/\r?\n|\r/g, '');
