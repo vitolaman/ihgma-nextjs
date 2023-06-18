@@ -1,7 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
-import { Alert } from "flowbite-react";
-import { Dropdown } from "flowbite-react";
 import React, { useState } from "react";
 import { useRouter } from "next/router";
 
