@@ -15,7 +15,7 @@ export default function Home() {
       type: ACTION_TYPES.FETCH_ARTICLE_HOME,
     });
     console.log(fetchedCountries);
-  }, []);
+  }, [dispatch, fetchedCountries]);
 
   return (
     <div>
