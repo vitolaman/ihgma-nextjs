@@ -3,7 +3,7 @@ import React from "react";
 import Head from "next/head";
 import { useDispatch, useSelector } from "react-redux";
 
-import { ACTION_TYPES } from "../../redux/actions/articleAction";
+import { ACTION_TYPES } from "../redux/actions/articleAction";
 
 export default function Home() {
   const dispatch = useDispatch(); 
