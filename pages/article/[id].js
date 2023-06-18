@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import React, { useEffect, useCallback } from "react";
+import React, { useEffect, useCallback, useState } from "react";
 import { unescape } from "lodash";
 import Head from "next/head";
 import { useDispatch, useSelector } from "react-redux";
@@ -20,6 +20,9 @@ export default function Article() {
     (state) => state?.articles?.articleSidebarList
   );
 
+  const [articleData, setArticleData] = useState([]);
+  const [articleSidebarData, setArticleSidebarData] = useState([]);
+
   useEffect(() => {
     if (id) {
       dispatch({
@@ -33,38 +36,47 @@ export default function Article() {
   }, [id]);
 
   useEffect(() => {
+    if (fetchedArticles?.artikel) {
+      setArticleData(fetchedArticles?.artikel);
+    }
+    if (fetchedSidebarArticles?.artikel) {
+      setArticleSidebarData(fetchedSidebarArticles?.artikel);
+    }
+  }, [fetchedArticles, fetchedSidebarArticles?.artikel]);
+
+  useEffect(() => {
     console.log(fetchedSidebarArticles);
   }, [fetchedSidebarArticles]);
 
   const renderTitle = useCallback(() => {
-    if (fetchedArticles.artikel.length === 0) {
+    if (articleData.length === 0) {
       return "";
     }
 
     return (
       <h1 className="mb-4 text-3xl font-extrabold text-black">
-        {fetchedArticles?.artikel[0]?.title}
+        {articleData[0]?.title}
       </h1>
     );
-  }, [fetchedArticles.artikel]);
+  }, [articleData]);
 
   const renderMainImage = useCallback(() => {
-    if (fetchedArticles.artikel.length === 0) {
+    if (articleData.length === 0) {
       return "";
     }
     const imageUrl =
-      "https://ihgma.org" + fetchedArticles?.artikel[0]?.main_picture;
+      "https://ihgma.org" + articleData[0]?.main_picture;
     return (
       <div
         className="w-full rounded-xl h-[32rem] bg-cover bg-bottom"
         style={{ backgroundImage: `url(${imageUrl})` }}
       ></div>
     );
-  }, [fetchedArticles.artikel]);
+  }, [articleData]);
 
   const renderSidebarCard = useCallback(
     (item) => {
-      if (fetchedSidebarArticles.artikel.length === 0) {
+      if (articleSidebarData.length === 0) {
         return null;
       }
       const imageUrl = "https://ihgma.org" + item?.main_picture;
@@ -100,20 +112,20 @@ export default function Article() {
         </div>
       );
     },
-    [fetchedSidebarArticles.artikel.length]
+    [articleSidebarData.length]
   );
 
   const renderArticle = useCallback(() => {
-    if (fetchedArticles.artikel.length === 0) {
+    if (articleData.length === 0) {
       return "";
     }
-    const content = fetchedArticles?.artikel[0]?.content;
+    const content = articleData[0]?.content;
     const unescapedHtml = unescape(content);
     const sanitizedHtml = unescapedHtml.replace(/\r?\n|\r/g, "");
     console.log(sanitizedHtml);
-
+    console.log('kontennya ', sanitizedHtml);
     return <div dangerouslySetInnerHTML={{ __html: sanitizedHtml }} />;
-  }, [fetchedArticles.artikel]);
+  }, [articleData]);
 
   return (
     <div>
@@ -135,8 +147,8 @@ export default function Article() {
                 <h1 className="text-2xl font-semibold text-black mb-4">
                   Recent Post
                 </h1>
-                {fetchedSidebarArticles &&
-                  fetchedSidebarArticles?.artikel.map((items) => {
+                {articleSidebarData &&
+                  articleSidebarData.map((items) => {
                     return renderSidebarCard(items);
                   })}
               </div>

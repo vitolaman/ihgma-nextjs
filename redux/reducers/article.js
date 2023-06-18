@@ -6,6 +6,7 @@ const initialState = {
   articleAllList: [],
   articleSidebarList: [],
   article: [],
+  ads: []
 };
 
 const getArticles = (state = initialState, action) => {
@@ -22,6 +23,9 @@ const getArticles = (state = initialState, action) => {
     case ACTION_TYPES.ARTICLE_FETCHED:
       // console.log(action);
       return { ...state, article: action.payload };
+    case ACTION_TYPES.HOME_ADS_FETCHED:
+      // console.log(action);
+      return { ...state, ads: action.payload };
 
     default:
       // console.log(action);

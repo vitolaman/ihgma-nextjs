@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import styles from "./styles/Home.module.css";
-import React, { useEffect } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { unescape } from "lodash";
 import Head from "next/head";
 import { useDispatch, useSelector } from "react-redux";
@@ -18,16 +18,52 @@ export default function Home() {
   const fetchedArticles = useSelector(
     (state) => state?.articles?.articleHomeList
   );
+  const fetchedAds = useSelector(
+    (state) => state?.articles?.ads
+  );
 
-  React.useEffect(() => {
+  const [articleData, setArticleData] = useState([]);
+  const [adsData, setAdsData] = useState([]);
+
+  function getRandomIndex(array) {
+    const length = array.length;
+    const randomIndex = Math.floor(Math.random() * length);
+    return randomIndex;
+  }
+
+  useEffect(() => {
     dispatch({
       type: ACTION_TYPES.FETCH_ARTICLE_HOME,
+    });
+    dispatch({
+      type: ACTION_TYPES.FETCH_ADS_HOME,
     });
   }, [dispatch]);
 
   useEffect(() => {
-    console.log(fetchedArticles);
-  }, [fetchedArticles]);
+    console.log('ini ', adsData);
+  }, [adsData]);
+
+  useEffect(() => {
+    if (fetchedArticles?.artikel) {
+      setArticleData(fetchedArticles?.artikel);
+    }
+    if(fetchedAds?.ads) {
+      setAdsData(fetchedAds?.ads);
+    }
+  }, [fetchedAds?.ads, fetchedArticles]);
+
+  const renderAds = useCallback(() => {
+    if (adsData.length === 0) {
+      return null;
+    }
+    const index = getRandomIndex(adsData);
+    const result = adsData[index]?.url.substring(1);
+    const adsUrl = "https://ihgma.org/dashboard" + result;
+    return (
+      <img src={adsUrl} alt="Frame-1" />
+    );
+  }, [adsData]);
 
   return (
     <div>
@@ -91,7 +127,8 @@ export default function Home() {
         </div>
         <section className="bg-white py-8 lg:px-36">
           <div className="w-full px-6 py-1 mb-2 ">
-            <img src="https://ihgma.org/Frame3.png" alt="Frame-1" />
+            {/* <img src="https://ihgma.org/Frame3.png" alt="Frame-1" /> */}
+            {renderAds()}
           </div>
           <div className="container mx-auto flex items-center flex-wrap pt-4 pb-12">
             <nav id="store" className="w-full top-0 px-6 py-1 mb-6">
@@ -105,7 +142,7 @@ export default function Home() {
             </nav>
 
             <div className="grid grid-cols-1 gap-4 px-6 xl:grid-cols-3">
-              {fetchedArticles && fetchedArticles?.artikel.map((c, index) => {
+              {articleData && articleData.map((c, index) => {
                 // const content = c.content;
                 // const unescapedHtml = unescape(content);
                 // const sanitizedHtml = unescapedHtml.replace(/\r?\n|\r/g, '');

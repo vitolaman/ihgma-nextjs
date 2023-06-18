@@ -8,6 +8,8 @@ export const ACTION_TYPES = {
   ARTICLE_SIDEBAR_FETCHED: "ARTICLE_SIDEBAR_FETCHED",
   FETCH_ARTICLE: "FETCH_ARTICLE",
   ARTICLE_FETCHED: "ARTICLE_FETCHED",
+  FETCH_ADS_HOME: "FETCH_ADS_HOME",
+  HOME_ADS_FETCHED: "HOME_ADS_FETCHED",
 };
 
 // Create functions to handle your actions.
@@ -27,10 +29,15 @@ export const fetchArticleAction = (payload) => ({
   type: ACTION_TYPES.ARTICLE_FETCHED,
   payload: payload,
 });
+export const fetchAdsHomeAction = (payload) => ({
+  type: ACTION_TYPES.HOME_ADS_FETCHED,
+  payload: payload,
+});
 
 export default {
   fetchArticleHomeAction,
   fetchArticleAllAction,
   fetchSidebarAction,
   fetchArticleAction,
+  fetchAdsHomeAction,
 };
