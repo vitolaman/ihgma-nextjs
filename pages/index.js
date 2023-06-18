@@ -3,17 +3,17 @@ import React from "react";
 import Head from "next/head";
 import { useDispatch, useSelector } from "react-redux";
 
-import { ACTION_TYPES } from "../redux/actions/countriesAction";
+import { ACTION_TYPES } from "../../redux/actions/articleAction";
 
 export default function Home() {
   const dispatch = useDispatch(); 
   // Using the useSelector Hook to fetch the state from store.
-  const fetchedCountries = useSelector((state) => state.countries.countriesList);
+  const fetchedCountries = useSelector((state) => state?.articles?.articleHomeList);
 
   React.useEffect(() => {
-    // dispatch({
-    //   type: ACTION_TYPES.FETCH_COUNTRIES,
-    // });
+    dispatch({
+      type: ACTION_TYPES.FETCH_ARTICLE_HOME,
+    });
     console.log(fetchedCountries);
   }, []);
 
@@ -28,9 +28,9 @@ export default function Home() {
       <main className={styles.main}>
         <h1>All Countries</h1>
         <p className="pt-3 text-gray-900 text-sm">IDR 50.000</p>
-        {fetchedCountries && fetchedCountries?.map((c) => (
+        {/* {fetchedCountries && fetchedCountries?.map((c) => (
           <h3 className="pt-4" key={c.name.common}>{c.name.common}</h3>
-        ))}
+        ))} */}
       </main>
     </div>
   );
