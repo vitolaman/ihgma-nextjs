@@ -11,9 +11,9 @@ export default function Home() {
   const fetchedCountries = useSelector((state) => state.countries.countriesList);
 
   React.useEffect(() => {
-    dispatch({
-      type: ACTION_TYPES.FETCH_COUNTRIES,
-    });
+    // dispatch({
+    //   type: ACTION_TYPES.FETCH_COUNTRIES,
+    // });
     console.log(fetchedCountries);
   }, []);
 
@@ -27,8 +27,9 @@ export default function Home() {
 
       <main className={styles.main}>
         <h1>All Countries</h1>
+        <p className="pt-3 text-gray-900 text-sm">IDR 50.000</p>
         {fetchedCountries?.map((c) => (
-          <h3 key={c.name}>{c.name}</h3>
+          <h3 className="pt-4" key={c.name.common}>{c.name.common}</h3>
         ))}
       </main>
     </div>

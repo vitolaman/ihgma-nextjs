@@ -1,7 +1,7 @@
 export const ACTION_TYPES = {
   // Define Action types
-  FETCH_ARTICLE_HOME: "FETCH_ARTICLE_HOMEV2",
-  ARTICLE_HOME_FETCHED: "ARTICLE_HOME_FETCHEDV2",
+  FETCH_ARTICLE_HOME: "FETCH_ARTICLE_HOME",
+  ARTICLE_HOME_FETCHED: "ARTICLE_HOME_FETCHED",
   FETCH_ARTICLE_ALL: "FETCH_ARTICLE_ALL",
   ARTICLE_ALL_FETCHED: "ARTICLE_ALL_FETCHED",
   FETCH_ARTICLE_SIDEBAR: "FETCH_ARTICLE_SIDEBAR",
@@ -19,8 +19,8 @@ export const fetchArticleAllAction = (payload) => ({
   type: ACTION_TYPES.ARTICLE_ALL_FETCHED,
   payload: payload,
 });
-export const fetchpayloadidebarAction = (payload) => ({
-  type: ACTION_TYPES.FETCH_ARTICLE_SIDEBAR,
+export const fetchSidebarAction = (payload) => ({
+  type: ACTION_TYPES.ARTICLE_SIDEBAR_FETCHED,
   payload: payload,
 });
 export const fetchArticleAction = (payload) => ({
@@ -31,6 +31,6 @@ export const fetchArticleAction = (payload) => ({
 export default {
   fetchArticleHomeAction,
   fetchArticleAllAction,
-  fetchpayloadidebarAction,
+  fetchSidebarAction,
   fetchArticleAction,
 };

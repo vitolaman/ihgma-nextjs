@@ -1,0 +1,11 @@
+{
+    "compilerOptions": {
+      "baseUrl": ".",
+      "paths": {
+        "@redux/*": ["./redux/*"],
+        "@pages/*": ["./pages/*"]
+      }
+    },
+    "include": ["./"]
+  }
+  

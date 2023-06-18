@@ -5,6 +5,7 @@ import { combineReducers } from "redux";
 
 /* IMPORT ALL REDUCERS HERE */
 import countries from "./countries";
+import articles from "./article";
 
 // If it is client side or not. (window is defined or not)
 const isClient = typeof window !== "undefined";
@@ -22,7 +23,7 @@ if (isClient) {
     storage: storage,
     // blacklist the states for which nested persist configs you are going to define.
     // --OR-- You might use whitelist if you want to persist all states of seleted reducers.
-    blacklist: ["countries"],
+    blacklist: ["countries",],
   };
 
   // Persist config for each of reducers you create.
@@ -33,9 +34,17 @@ if (isClient) {
     whitelist: ["countriesList"],
   };
 
+  const articlesPersistConfig = {
+    key: "articles",
+    storage: storage,
+    // whitelist OR blacklist states according to your need.
+    whitelist: ["articleHomeList"],
+  };
+
   /* COMBINE ALL REDUCERS */
   const combinedReducers = combineReducers({
     countries: persistReducer(countriesPersistConfig, countries),
+    articles: persistReducer(articlesPersistConfig, articles),
   });
 
   // Main Reducer if in client side.
@@ -46,6 +55,7 @@ if (isClient) {
   // Main Reducer if in client side.
   mainReducer = combineReducers({
     countries,
+    articles,
   });
 }
 
@@ -58,6 +68,7 @@ function reducer(state, action) {
         ...action.payload,
       };
       if (state.countries) nextState.countries = state.countries; // Preserve state during client side navigations.
+      if (state.articles) nextState.articles = state.articles; // Preserve state during client side navigations.
       return nextState;
 
     default:

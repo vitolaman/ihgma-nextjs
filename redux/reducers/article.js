@@ -1,4 +1,4 @@
-import { ACTION_TYPES } from "../actions/countriesAction";
+import { ACTION_TYPES } from "../actions/articleAction";
 
 // Define initial states.
 const initialState = {
@@ -8,20 +8,25 @@ const initialState = {
   article: [],
 };
 
-const getCountries = (state = initialState, action) => {
+const getArticles = (state = initialState, action) => {
   switch (action.type) {
     case ACTION_TYPES.ARTICLE_HOME_FETCHED:
+      // console.log(action);
       return { ...state, articleHomeList: action.payload };
     case ACTION_TYPES.ARTICLE_ALL_FETCHED:
+      // console.log(action);
       return { ...state, articleAllList: action.payload };
     case ACTION_TYPES.ARTICLE_SIDEBAR_FETCHED:
+      console.log(action);
       return { ...state, articleSidebarList: action.payload };
     case ACTION_TYPES.ARTICLE_FETCHED:
+      // console.log(action);
       return { ...state, article: action.payload };
 
     default:
+      // console.log(action);
       return state;
   }
 };
 
-export default getCountries;
+export default getArticles;
