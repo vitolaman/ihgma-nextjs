@@ -25,7 +25,7 @@
   "bugs": "https://github.com/rishav4101/create-next-saga-persist-app/issues",
   "scripts": {
     "dev": "cross-env NODE_OPTIONS='--openssl-legacy-provider' next dev",
-    "build": "cross-env NODE_OPTIONS='--openssl-legacy-provider' next build && next-static-manifest",
+    "build": "cross-env NODE_OPTIONS='--openssl-legacy-provider' next build",
     "start": "cross-env NODE_OPTIONS='--openssl-legacy-provider' next start",
     "lint": "next lint",
     "test": "echo \"No test specified\""
