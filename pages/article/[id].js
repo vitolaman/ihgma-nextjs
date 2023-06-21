@@ -64,11 +64,10 @@ export default function Article() {
     if (articleData.length === 0) {
       return "";
     }
-    const imageUrl =
-      "https://ihgma.org" + articleData[0]?.main_picture;
+    const imageUrl = "https://ihgma.org" + articleData[0]?.main_picture;
     return (
       <div
-        className="w-full rounded-xl h-[32rem] bg-cover bg-bottom"
+        className="w-full rounded-xl h-[32rem] bg-cover bg-no-repeat bg-left bg-bottom mb-8"
         style={{ backgroundImage: `url(${imageUrl})` }}
       ></div>
     );
@@ -119,11 +118,26 @@ export default function Article() {
     if (articleData.length === 0) {
       return "";
     }
-    const content = articleData[0]?.content;
+    const content = articleData[0]?.content
+      .replace(/&amp;/g, "&")
+      .replace(/&lt;/g, "<")
+      .replace(/&gt;/g, ">")
+      .replace(/&quot;/g, '"')
+      .replace(/&apos;/g, "'");
     const unescapedHtml = unescape(content);
     const sanitizedHtml = unescapedHtml.replace(/\r?\n|\r/g, "");
+    // const sanitizedHtml = sanitizeHtml(unescapedHtml, {
+    //   transformTags: {
+    //     'img': (tagName, attribs) => {
+    //       // Remove <img> tags
+    //       return {
+    //         tagName: '',
+    //         attribs: {},
+    //       };
+    //     },
+    //   },
+    // });
     console.log(sanitizedHtml);
-    console.log('kontennya ', sanitizedHtml);
     return <div dangerouslySetInnerHTML={{ __html: sanitizedHtml }} />;
   }, [articleData]);
 
@@ -137,13 +151,15 @@ export default function Article() {
 
       <main>
         <Header />
-        <section className="bg-white pb-8 lg:px-36">
+        <section className="bg-white py-8 lg:px-36">
           <div className="container mx-auto flex items-center flex-wrap pt-4 pb-12 px-8 md:px-0">
-            {renderTitle()}
-            {renderMainImage()}
             <div className="flex flex-col md:flex-row w-full">
-              <div className="md:basis-3/4 mr-10">{renderArticle()}</div>
-              <div className="w-full md:basis-1/4 mt-8">
+              <div className="md:basis-3/4 mr-10">
+                {renderTitle()}
+                {renderMainImage()}
+                {renderArticle()}
+              </div>
+              <div className="w-full md:basis-1/4">
                 <h1 className="text-2xl font-semibold text-black mb-4">
                   Recent Post
                 </h1>
