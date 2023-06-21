@@ -5,7 +5,6 @@ import Head from "next/head";
 import { useDispatch, useSelector } from "react-redux";
 import { Header, Footer } from "../../components";
 import { useRouter } from "next/router";
-import sanitizeHtml from "sanitize-html";
 
 import { ACTION_TYPES } from "../../redux/actions/articleAction";
 
