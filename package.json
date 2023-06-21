@@ -25,8 +25,8 @@
   "bugs": "https://github.com/rishav4101/create-next-saga-persist-app/issues",
   "scripts": {
     "dev": "cross-env NODE_OPTIONS='--openssl-legacy-provider' next dev",
-    "build": "cross-env NODE_OPTIONS='--openssl-legacy-provider' next build",
-    "start": "next start",
+    "build": "cross-env NODE_OPTIONS='--openssl-legacy-provider' next build && next-static-manifest",
+    "start": "cross-env NODE_OPTIONS='--openssl-legacy-provider' next start",
     "lint": "next lint",
     "test": "echo \"No test specified\""
   },
@@ -34,8 +34,9 @@
     "@headlessui/react": "^1.7.15",
     "cross-env": "^7.0.3",
     "flowbite": "^1.6.6",
-    "next": "11.0.1",
+    "next": "12",
     "next-redux-wrapper": "^7.0.2",
+    "next-static-manifest": "^0.9.0",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-redux": "^7.2.4",
