@@ -33,7 +33,7 @@ export default function Article() {
         type: ACTION_TYPES.FETCH_ARTICLE_SIDEBAR,
       });
     }
-  }, [dispatch, id]);
+  }, [id]);
 
   useEffect(() => {
     if (fetchedArticles?.artikel) {
@@ -126,17 +126,6 @@ export default function Article() {
       .replace(/&apos;/g, "'");
     const unescapedHtml = unescape(content);
     const sanitizedHtml = unescapedHtml.replace(/\r?\n|\r/g, "");
-    // const sanitizedHtml = sanitizeHtml(unescapedHtml, {
-    //   transformTags: {
-    //     'img': (tagName, attribs) => {
-    //       // Remove <img> tags
-    //       return {
-    //         tagName: '',
-    //         attribs: {},
-    //       };
-    //     },
-    //   },
-    // });
     console.log(sanitizedHtml);
     return <div dangerouslySetInnerHTML={{ __html: sanitizedHtml }} />;
   }, [articleData]);
