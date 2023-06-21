@@ -33,7 +33,7 @@ export default function Article() {
         type: ACTION_TYPES.FETCH_ARTICLE_SIDEBAR,
       });
     }
-  }, [id]);
+  }, [dispatch, id]);
 
   useEffect(() => {
     if (fetchedArticles?.artikel) {

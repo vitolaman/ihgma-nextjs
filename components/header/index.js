@@ -5,14 +5,36 @@ import { useRouter } from "next/router";
 
 function Header() {
   const router = useRouter();
-  const [isShowProfile, setShowProfile] = useState(false);
-  const [isShowMembership, setShowMembership] = useState(false);
-  const [isShowNews, setShowNews] = useState(false);
-  const [isShowStore, setShowStore] = useState(false);
-  const [isShowLive, setShowLive] = useState(false);
+  // const [isShowProfile, setShowProfile] = useState(false);
+  // const [isShowMembership, setShowMembership] = useState(false);
+  // const [isShowNews, setShowNews] = useState(false);
+  // const [isShowStore, setShowStore] = useState(false);
+  // const [isShowLive, setShowLive] = useState(false);
+
+  const initialState = {
+    isShowProfile: false,
+    isShowMembership: false,
+    isShowNews: false,
+    isShowStore: false,
+    isShowLive: false,
+  };
+
+  const [state, setState] = useState(initialState);
+
+  const toggleObject = (objectKey) => {
+    setState((prevState) => {
+      // Create a new state object with all values set to false
+      const newState = { ...initialState };
+
+      // Toggle the value of the specified objectKey
+      newState[objectKey] = !prevState[objectKey];
+
+      return newState;
+    });
+  };
 
   return (
-    <nav className="bg-white border-gray-200 px-2 sm:px-4 py-2.5">
+    <nav className="bg-white border-gray-200 px-2 sm:px-4 py-2.5 sticky top-0 z-10 drop-shadow-[0_35px_35px_rgba(0,0,0,0.055)]">
       <div className="container flex flex-wrap items-center justify-between mx-auto">
         <a onClick={() => router.push("/home")} className="flex items-center">
           <img
@@ -129,7 +151,7 @@ function Header() {
             </li>
             <li className="relative ">
               <button
-                onClick={() => setShowProfile(!isShowProfile)}
+                onClick={() => toggleObject("isShowProfile")}
                 className="flex items-center justify-between w-full py-2 pl-3 pr-4 font-medium text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 hover:text-blue-700 md:p-0 md:w-auto"
               >
                 Profile{" "}
@@ -151,7 +173,7 @@ function Header() {
               <div
                 id="dropdownNavbar"
                 className={
-                  isShowProfile
+                  state.isShowProfile
                     ? "absolute z-10 font-normal bg-white divide-y divide-gray-100  shadow w-44"
                     : "z-10 hidden font-normal bg-white divide-y divide-gray-100  shadow w-44"
                 }
@@ -213,7 +235,7 @@ function Header() {
             </li>
             <li className="relative ">
               <button
-                onClick={() => setShowMembership(!isShowMembership)}
+                onClick={() => toggleObject("isShowMembership")}
                 className="flex items-center justify-between w-full py-2 pl-3 pr-4 font-medium text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:w-auto"
               >
                 Membership{" "}
@@ -234,7 +256,7 @@ function Header() {
 
               <div
                 className={
-                  isShowMembership
+                  state.isShowMembership
                     ? "absolute z-10 font-normal bg-white divide-y divide-gray-100  shadow w-44"
                     : "z-10 hidden font-normal bg-white divide-y divide-gray-100  shadow w-44"
                 }
@@ -256,7 +278,7 @@ function Header() {
             </li>
             <li className="relative">
               <button
-                onClick={() => setShowNews(!isShowNews)}
+                onClick={() => toggleObject("isShowNews")}
                 className="flex items-center justify-between w-full py-2 pl-3 pr-4 font-medium text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:w-auto"
               >
                 News{" "}
@@ -277,7 +299,7 @@ function Header() {
 
               <div
                 className={
-                  isShowNews
+                  state.isShowNews
                     ? "absolute z-10 font-normal bg-white divide-y divide-gray-100 shadow w-44"
                     : "z-10 hidden font-normal bg-white divide-y divide-gray-100 shadow w-44"
                 }
@@ -320,7 +342,7 @@ function Header() {
             </li>
             <li>
               <button
-                onClick={() => setShowStore(!isShowStore)}
+                onClick={() => toggleObject("isShowStore")}
                 className="flex items-center justify-between w-full py-2 pl-3 pr-4 font-medium text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:w-auto"
               >
                 Store{" "}
@@ -340,7 +362,7 @@ function Header() {
               </button>
               <div
                 className={
-                  isShowStore
+                  state.isShowStore
                     ? "z-10 absolute font-normal bg-white divide-y divide-gray-100  shadow w-44"
                     : "z-10 hidden font-normal bg-white divide-y divide-gray-100  shadow w-44"
                 }
@@ -380,7 +402,7 @@ function Header() {
             </li>
             <li className="relative">
               <button
-                onClick={() => setShowLive(!isShowLive)}
+                onClick={() => toggleObject("isShowLive")}
                 className="flex items-center justify-between w-full py-2 pl-3 pr-4 font-medium text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:w-auto"
               >
                 Live{" "}
@@ -401,7 +423,7 @@ function Header() {
 
               <div
                 className={
-                  isShowLive
+                  state.isShowLive
                     ? "z-10 absolute font-normal bg-white divide-y divide-gray-100  shadow w-44"
                     : "z-10 hidden font-normal bg-white divide-y divide-gray-100  shadow w-44"
                 }
