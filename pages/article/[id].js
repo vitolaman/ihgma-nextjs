@@ -67,7 +67,7 @@ export default function Article() {
     const imageUrl = "https://ihgma.org" + articleData[0]?.main_picture;
     return (
       <div
-        className="w-full rounded-xl h-[32rem] bg-cover bg-bottom"
+        className="w-full rounded-xl h-[32rem] bg-cover bg-bottom mb-8"
         style={{ backgroundImage: `url(${imageUrl})` }}
       ></div>
     );
