@@ -24,7 +24,7 @@ function Header() {
         <div className="flex items-center md:order-2">
           <a
             className="hidden md:inline-block  pl-3 inline-block no-underline hover:text-blue-700 mr-5"
-            href="cart.html"
+            onClick={() => router.push("/cart")}
           >
             <svg
               className="fill-current hover:text-blue-700"

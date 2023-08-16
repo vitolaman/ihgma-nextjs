@@ -5,8 +5,12 @@ import {
   fetchSidebarAction,
   fetchArticleAction,
   fetchAdsHomeAction,
+  cartAdded,
+  fetchAllItemsAction,
+  fetchItemAction,
   ACTION_TYPES,
 } from "../actions/articleAction";
+import { useSelector } from "react-redux";
 
 function* fetchArticleHome() {
   const apiData = yield fetch(`https://ihgma.org/api/article/forhome/`); // Fetch call.
@@ -29,30 +33,33 @@ function* fetchArticle(parameter) {
     `https://ihgma.org/api/article/id/${parameter?.id}`
   ); // Fetch call.
   const data = yield apiData.json(); // Convert to JSON.
-  // console.log(data);
+  console.log(data);
   yield put(fetchArticleAction(data)); // Initiate the action on fetch success.
 }
 function* fetchAdsHome() {
-  // const apiData = yield fetch(`https://ihgma.org/api/ads/aGZlNjQybnA4MTM0bjI4OA/welcome-page-01`); // Fetch call.
-  const apiData = {
-    status: "success",
-    msg: "found records",
-    ads: [
-      {
-        segment: "welcome-page-01",
-        url: "./img/ads_image/20230615_2Mc4v6.jpg",
-        resolution: "1440x250",
-      },
-      {
-        segment: "welcome-page-01",
-        url: "./img/ads_image/20230615_f72cJ5.jpg",
-        resolution: "1440x250",
-      },
-    ],
-  };
-  // const data = yield apiData.json(); // Convert to JSON.
-  console.log(apiData);
-  yield put(fetchAdsHomeAction(apiData)); // Initiate the action on fetch success.
+  const apiData = yield fetch(`https://ihgma.org/api/ads/aGZlNjQybnA4MTM0bjI4OA/welcome-page-01`); // Fetch call.
+  const data = yield apiData.json(); // Convert to JSON.
+  console.log(data);
+  yield put(fetchAdsHomeAction(data)); // Initiate the action on fetch success.
+}
+
+function* addToCart(params) {
+  console.log(params.item);
+  yield put(cartAdded(params.item)); // Initiate the action on fetch success.
+}
+
+function* fetchAllItems() {
+  const apiData = yield fetch(`https://ihgma.org/api/marketplace/`); // Fetch call.
+  const data = yield apiData.json(); // Convert to JSON.
+  yield put(fetchAllItemsAction(data)); // Initiate the action on fetch success.
+}
+
+function* fetchItem(parameter) {
+  console.log('ini', parameter);
+  const apiData = yield fetch(`https://ihgma.org/api/marketplace/id/${parameter?.id}`); // Fetch call.
+  const data = yield apiData.json(); // Convert to JSON.
+  console.log(data);
+  yield put(fetchItemAction(data?.market_listing[0])); // Initiate the action on fetch success.
 }
 
 export default function* watchArticles() {
@@ -61,4 +68,7 @@ export default function* watchArticles() {
   yield takeEvery(ACTION_TYPES.FETCH_ARTICLE_SIDEBAR, fetchArticleSidebar);
   yield takeEvery(ACTION_TYPES.FETCH_ARTICLE, fetchArticle);
   yield takeEvery(ACTION_TYPES.FETCH_ADS_HOME, fetchAdsHome);
+  yield takeEvery(ACTION_TYPES.ADD_CART, addToCart);
+  yield takeEvery(ACTION_TYPES.FETCH_ALL_ITEMS, fetchAllItems);
+  yield takeEvery(ACTION_TYPES.FETCH_ITEM, fetchItem);
 }

@@ -1,7 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import styles from "./styles/Home.module.css";
 import React, { useEffect, useState, useCallback } from "react";
-import { unescape } from "lodash";
 import Head from "next/head";
 import { useDispatch, useSelector } from "react-redux";
 import { Header, Footer } from "../../components";
@@ -11,15 +10,16 @@ import { ACTION_TYPES } from "../../redux/actions/articleAction";
 
 export default function Home() {
   const dispatch = useDispatch();
-  const router = useRouter()
+  const router = useRouter();
   // Using the useSelector Hook to fetch the state from store.
   const fetchedCountries = useSelector((state) => state);
 
   const fetchedArticles = useSelector(
     (state) => state?.articles?.articleHomeList
   );
-  const fetchedAds = useSelector(
-    (state) => state?.articles?.ads
+  const fetchedAds = useSelector((state) => state?.articles?.ads);
+  const fetchedItems = useSelector(
+    (state) => state?.articles?.itemList?.market_listing
   );
 
   const [articleData, setArticleData] = useState([]);
@@ -38,17 +38,20 @@ export default function Home() {
     dispatch({
       type: ACTION_TYPES.FETCH_ADS_HOME,
     });
+    dispatch({
+      type: ACTION_TYPES.FETCH_ALL_ITEMS,
+    });
   }, [dispatch]);
 
   useEffect(() => {
-    console.log('ini ', adsData);
-  }, [adsData]);
+    console.log("ini ", fetchedItems);
+  }, [fetchedItems]);
 
   useEffect(() => {
     if (fetchedArticles?.artikel) {
       setArticleData(fetchedArticles?.artikel);
     }
-    if(fetchedAds?.ads) {
+    if (fetchedAds?.ads) {
       setAdsData(fetchedAds?.ads);
     }
   }, [fetchedAds?.ads, fetchedArticles]);
@@ -59,9 +62,11 @@ export default function Home() {
     }
     const index = getRandomIndex(adsData);
     const result = adsData[index]?.url.substring(1);
-    const adsUrl = "https://ihgma.org/dashboard" + result;
+    const adsUrl = "https://dashboard.ihgma.org" + result;
     return (
-      <img src={adsUrl} alt="Frame-1" />
+      <div>
+        <img src={adsUrl} alt="Frame-1" />
+      </div>
     );
   }, [adsData]);
 
@@ -126,10 +131,7 @@ export default function Home() {
           </div>
         </div>
         <section className="bg-white py-8 lg:px-36">
-          <div className="w-full px-6 py-1 mb-2 ">
-            {/* <img src="https://ihgma.org/Frame3.png" alt="Frame-1" /> */}
-            {renderAds()}
-          </div>
+          <div className="w-full px-6 py-1 mb-2 ">{renderAds()}</div>
           <div className="container mx-auto flex items-center flex-wrap pt-4 pb-12">
             <nav id="store" className="w-full top-0 px-6 py-1 mb-6">
               <div className="w-full container mx-auto flex flex-wrap items-center justify-between mt-0 px-2 pt-3">
@@ -142,54 +144,57 @@ export default function Home() {
             </nav>
 
             <div className="grid grid-cols-1 gap-4 px-6 xl:grid-cols-3">
-              {articleData && articleData.map((c, index) => {
-                // const content = c.content;
-                // const unescapedHtml = unescape(content);
-                // const sanitizedHtml = unescapedHtml.replace(/\r?\n|\r/g, '');
-                // console.log(sanitizedHtml);
-                return (
-                  <div key={index} className="w-full h-full p-2 flex flex-col" onClick={() => router.push(`/article/${c.id}`)}>
-                    <a
-                      className="h-full bg-white drop-shadow-lg hover:shadow-lg group"
+              {articleData &&
+                articleData.map((c, index) => {
+                  // const content = c.content;
+                  // const unescapedHtml = unescape(content);
+                  // const sanitizedHtml = unescapedHtml.replace(/\r?\n|\r/g, '');
+                  // console.log(sanitizedHtml);
+                  return (
+                    <div
+                      key={index}
+                      className="w-full h-full p-2 flex flex-col"
+                      onClick={() => router.push(`/article/${c.id}`)}
                     >
-                      <picture className="block overflow-hidden">
-                        <img
-                          className="object-cover w-full h-60"
-                          src={"https://ihgma.org/" + c?.main_picture}
-                        />
-                      </picture>
-                      <div className="px-5 pb-5">
-                        <div className="mt-3 text-xs bg-blue-100 text-blue-800  py-1 px-3 w-min">
-                          {c.category}
-                        </div>
-                        <div className="pt-2 flex items-center justify-between">
-                          <p className="text-2xl text-slate-900 font-semibold">
-                            {c.title}
+                      <a className="h-full bg-white drop-shadow-lg hover:shadow-lg group">
+                        <picture className="block overflow-hidden">
+                          <img
+                            className="object-cover w-full h-60"
+                            src={"https://ihgma.org/" + c?.main_picture}
+                          />
+                        </picture>
+                        <div className="px-5 pb-5">
+                          <div className="mt-3 text-xs bg-blue-100 text-blue-800  py-1 px-3 w-min">
+                            {c.category}
+                          </div>
+                          <div className="pt-2 flex items-center justify-between">
+                            <p className="text-2xl text-slate-900 font-semibold">
+                              {c.title}
+                            </p>
+                          </div>
+                          <p className="text-lg pt-2 text-blue-800 font-medium">
+                            Read More
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              strokeWidth="1.5"
+                              stroke="currentColor"
+                              className="w-6 h-6 inline"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"
+                              />
+                            </svg>
                           </p>
                         </div>
-                        <p className="text-lg pt-2 text-blue-800 font-medium">
-                          Read More
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            strokeWidth="1.5"
-                            stroke="currentColor"
-                            className="w-6 h-6 inline"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"
-                            />
-                          </svg>
-                        </p>
-                      </div>
-                      <div className="absolute bottom-0 h-[5px] w-1/6 bg-gradient-to-r from-[#7b3a94] via-[#332f5b] to-[#1b8393] ease-out duration-300 group-hover:w-full group-hover:transition-all"></div>
-                    </a>
-                  </div>
-                );
-              })}
+                        <div className="absolute bottom-0 h-[5px] w-1/6 bg-gradient-to-r from-[#7b3a94] via-[#332f5b] to-[#1b8393] ease-out duration-300 group-hover:w-full group-hover:transition-all"></div>
+                      </a>
+                    </div>
+                  );
+                })}
             </div>
           </div>
         </section>
@@ -244,155 +249,38 @@ export default function Home() {
             </nav>
 
             <div className="w-full grid grid-cols-1 gap-4 px-6 xl:grid-cols-3">
-              <div className="w-full p-2 flex flex-col">
-                <a
-                  href="items.html"
-                  className="bg-white drop-shadow-lg hover:shadow-lg"
-                >
-                  <picture className="block overflow-hidden">
-                    <img
-                      className="object-cover w-full h-60"
-                      src="https://images.unsplash.com/photo-1467949576168-6ce8e2df4e13?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop"
-                    />
-                  </picture>
-                  <div className="px-5 pb-5">
-                    <div className="mt-3 text-xs bg-blue-100 text-blue-800  py-1 px-3 w-min">
-                      category
-                    </div>
-                    <div className="pt-2 flex items-center justify-between">
-                      <p className="text-2xl text-slate-900 font-semibold">
-                        Item Name
-                      </p>
-                    </div>
-                    <p className="pt-3 text-gray-900 text-sm">IDR 50.000</p>
+              {fetchedItems?.map((item) => {
+                return (
+                  <div
+                    key={item?.id}
+                    onClick={() => router.push(`/item/${item.id}`)}
+                    className="w-full p-2 flex flex-col"
+                  >
+                    <a
+                      // href="items.html"
+                      className="bg-white drop-shadow-lg hover:shadow-lg"
+                    >
+                      <picture className="block overflow-hidden">
+                        <img
+                          className="object-cover w-full h-60"
+                          src={"https://ihgma.org" + item.main_picture}
+                        />
+                      </picture>
+                      <div className="px-5 pb-5">
+                        <div className="mt-3 text-xs bg-blue-100 text-blue-800  py-1 px-3 w-min">
+                          {item?.category === "1" ? "Baju" : "Alat"}
+                        </div>
+                        <div className="pt-2 flex items-center justify-between">
+                          <p className="text-2xl text-slate-900 font-semibold">
+                            {item?.name}
+                          </p>
+                        </div>
+                        <p className="pt-3 text-gray-900 text-sm">IDR 50.000</p>
+                      </div>
+                    </a>
                   </div>
-                </a>
-              </div>
-
-              <div className="w-full p-2 flex flex-col">
-                <a
-                  href="items.html"
-                  className="bg-white drop-shadow-lg hover:shadow-lg"
-                >
-                  <picture className="block overflow-hidden">
-                    <img
-                      className="object-cover w-full h-60"
-                      src="https://images.unsplash.com/photo-1544787219-7f47ccb76574?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop"
-                    />
-                  </picture>
-                  <div className="px-5 pb-5">
-                    <div className="mt-3 text-xs bg-blue-100 text-blue-800  py-1 px-3 w-min">
-                      category
-                    </div>
-                    <div className="pt-2 flex items-center justify-between">
-                      <p className="text-2xl text-slate-900 font-semibold">
-                        Item Name
-                      </p>
-                    </div>
-                    <p className="pt-3 text-gray-900 text-sm">IDR 50.000</p>
-                  </div>
-                </a>
-              </div>
-
-              <div className="w-full p-2 flex flex-col">
-                <a
-                  href="items.html"
-                  className="bg-white drop-shadow-lg hover:shadow-lg"
-                >
-                  <picture className="block overflow-hidden">
-                    <img
-                      className="object-cover w-full h-60"
-                      src="https://images.unsplash.com/photo-1550837368-6594235de85c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop"
-                    />
-                  </picture>
-                  <div className="px-5 pb-5">
-                    <div className="mt-3 text-xs bg-blue-100 text-blue-800  py-1 px-3 w-min">
-                      category
-                    </div>
-                    <div className="pt-2 flex items-center justify-between">
-                      <p className="text-2xl text-slate-900 font-semibold">
-                        Item Name
-                      </p>
-                    </div>
-                    <p className="pt-3 text-gray-900 text-sm">IDR 50.000</p>
-                  </div>
-                </a>
-              </div>
-
-              <div className="w-full p-2 flex flex-col">
-                <a
-                  href="items.html"
-                  className="bg-white drop-shadow-lg hover:shadow-lg"
-                >
-                  <picture className="block overflow-hidden">
-                    <img
-                      className="object-cover w-full h-60"
-                      src="https://images.unsplash.com/photo-1551431009-a802eeec77b1?ixlib=rb-1.2.1&auto=format&fit=crop"
-                    />
-                  </picture>
-                  <div className="px-5 pb-5">
-                    <div className="mt-3 text-xs bg-blue-100 text-blue-800  py-1 px-3 w-min">
-                      category
-                    </div>
-                    <div className="pt-2 flex items-center justify-between">
-                      <p className="text-2xl text-slate-900 font-semibold">
-                        Item Name
-                      </p>
-                    </div>
-                    <p className="pt-3 text-gray-900 text-sm">IDR 50.000</p>
-                  </div>
-                </a>
-              </div>
-
-              <div className="w-full p-2 flex flex-col">
-                <a
-                  href="items.html"
-                  className="bg-white drop-shadow-lg hover:shadow-lg"
-                >
-                  <picture className="block overflow-hidden">
-                    <img
-                      className="object-cover w-full h-60"
-                      src="https://images.unsplash.com/photo-1545127398-14699f92334b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=435&q=80"
-                    />
-                  </picture>
-                  <div className="px-5 pb-5">
-                    <div className="mt-3 text-xs bg-blue-100 text-blue-800  py-1 px-3 w-min">
-                      category
-                    </div>
-                    <div className="pt-2 flex items-center justify-between">
-                      <p className="text-2xl text-slate-900 font-semibold">
-                        Item Name
-                      </p>
-                    </div>
-                    <p className="pt-3 text-gray-900 text-sm">IDR 50.000</p>
-                  </div>
-                </a>
-              </div>
-
-              <div className="w-full p-2 flex flex-col">
-                <a
-                  href="items.html"
-                  className="bg-white drop-shadow-lg hover:shadow-lg"
-                >
-                  <picture className="block overflow-hidden">
-                    <img
-                      className="object-cover w-full h-60"
-                      src="https://images.unsplash.com/photo-1614879001283-cfced344a83a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80"
-                    />
-                  </picture>
-                  <div className="px-5 pb-5">
-                    <div className="mt-3 text-xs bg-blue-100 text-blue-800  py-1 px-3 w-min">
-                      category
-                    </div>
-                    <div className="pt-2 flex items-center justify-between">
-                      <p className="text-2xl text-slate-900 font-semibold">
-                        Item Name
-                      </p>
-                    </div>
-                    <p className="pt-3 text-gray-900 text-sm">IDR 50.000</p>
-                  </div>
-                </a>
-              </div>
+                );
+              })}
             </div>
           </div>
         </section>

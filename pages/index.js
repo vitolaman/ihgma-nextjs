@@ -11,13 +11,13 @@ export default function Home() {
   const router = useRouter();
   // Using the useSelector Hook to fetch the state from store.
   const fetchedCountries = useSelector(
-    (state) => state?.articles?.articleHomeList
+    (state) => state?.articles
   );
 
   React.useEffect(() => {
     const timeoutId = setTimeout(() => {
       router.push("/home");
-    }, 1000);
+    }, 500);
 
     // Clean up the timeout when the component unmounts or when the effect is re-run
     return () => clearTimeout(timeoutId);
