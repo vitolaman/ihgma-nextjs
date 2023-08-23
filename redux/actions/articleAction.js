@@ -20,6 +20,9 @@ export const ACTION_TYPES = {
   ALL_ITEMS_FETCHED: "ALL_ITEMS_FETCHED",
   FETCH_ITEM: "FETCH_ITEM",
   ITEM_FETCHED: "ITEM_FETCHED",
+  // vacancy section
+  FETCH_VACANCY: "FETCH_VACANCY",
+  VACANCY_FETCHED: "VACANCY_FETCHED",
 };
 
 // Create functions to handle your actions.
@@ -63,6 +66,10 @@ export const fetchItemAction = (payload) => ({
   type: ACTION_TYPES.ITEM_FETCHED,
   payload: payload,
 });
+export const fetchVacancyAction = (payload) => ({
+  type: ACTION_TYPES.VACANCY_FETCHED,
+  payload: payload,
+});
 
 export default {
   fetchArticleHomeAction,
@@ -75,4 +82,5 @@ export default {
   deleteItem,
   fetchAllItemsAction,
   fetchItemAction,
+  fetchVacancyAction,
 };

@@ -17,6 +17,8 @@ const initialState = {
   //account section
   isLogin: false,
   profile: [],
+  //vacancy section
+  vacancyList: [],
 };
 
 const getArticles = (state = initialState, action) => {
@@ -90,6 +92,10 @@ const getArticles = (state = initialState, action) => {
     case ACTION_TYPES.ITEM_FETCHED:
       // console.log(action);
       return { ...state, item: action.payload };
+
+    case ACTION_TYPES.VACANCY_FETCHED:
+      // console.log(action);
+      return { ...state, vacancyList: action.payload };
 
     default:
       // console.log(action);

@@ -8,6 +8,7 @@ import {
   cartAdded,
   fetchAllItemsAction,
   fetchItemAction,
+  fetchVacancyAction,
   ACTION_TYPES,
 } from "../actions/articleAction";
 import { useSelector } from "react-redux";
@@ -61,6 +62,12 @@ function* fetchItem(parameter) {
   yield put(fetchItemAction(data?.market_listing[0])); // Initiate the action on fetch success.
 }
 
+function* fetchVacancy() {
+  const apiData = yield fetch(`https://ihgma.org/api/vacancy/`); // Fetch call.
+  const data = yield apiData.json(); // Convert to JSON.
+  yield put(fetchVacancyAction(data)); // Initiate the action on fetch success.
+}
+
 export default function* watchArticles() {
   yield takeEvery(ACTION_TYPES.FETCH_ARTICLE_HOME, fetchArticleHome);
   yield takeEvery(ACTION_TYPES.FETCH_ARTICLE_ALL, fetchArticleAll);
@@ -70,4 +77,5 @@ export default function* watchArticles() {
   yield takeEvery(ACTION_TYPES.ADD_CART, addToCart);
   yield takeEvery(ACTION_TYPES.FETCH_ALL_ITEMS, fetchAllItems);
   yield takeEvery(ACTION_TYPES.FETCH_ITEM, fetchItem);
+  yield takeEvery(ACTION_TYPES.FETCH_VACANCY, fetchVacancy);
 }
