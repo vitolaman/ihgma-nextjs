@@ -121,6 +121,7 @@ export default function Article() {
     const content = articleData[0]?.content;
     const unescapedHtml = unescape(content);
     const sanitizedHtml = unescapedHtml
+      .replace(/\\r\\n/g, "\n")
       .replace(/\r?\n|\r/g, "")
       .replace(/&amp;/g, "&")
       .replace(/&lt;/g, "<")

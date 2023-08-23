@@ -31,6 +31,10 @@ export default function Home() {
     return randomIndex;
   }
 
+  function addThousandsSeparators(number) {
+    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  }
+
   useEffect(() => {
     dispatch({
       type: ACTION_TYPES.FETCH_ARTICLE_HOME,
@@ -275,7 +279,7 @@ export default function Home() {
                             {item?.name}
                           </p>
                         </div>
-                        <p className="pt-3 text-gray-900 text-sm">IDR 50.000</p>
+                        <p className="pt-3 text-gray-900 text-sm">IDR {addThousandsSeparators(item.price)}</p>
                       </div>
                     </a>
                   </div>

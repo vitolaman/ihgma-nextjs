@@ -14,10 +14,18 @@ export default function Article() {
   // Using the useSelector Hook to fetch the state from store.
 
   const cartList = useSelector((state) => state?.articles?.cart);
-  const totalCount = cartList.reduce((total, item) => total + item.count, 0) * 50000;
+  const totalCount = cartList.reduce(
+    (total, item) => getSum(total, item.price * item.count),
+    0
+  );
 
   function addThousandsSeparators(number) {
     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  }
+
+  function getSum(total, num) {
+    console.log(total);
+    return total + Math.round(num);
   }
 
   const handleUpdateCount = useCallback(
@@ -64,7 +72,7 @@ export default function Article() {
               </div>
 
               <div className="mb-5 flex flex-col sm:mb-8">
-                {cartList?.length == 0 && (<p>Keranjang anda masih kosong</p>) }
+                {cartList?.length == 0 && <p>Keranjang anda masih kosong</p>}
                 {cartList?.map((item, index) => {
                   return (
                     <div key={item.id} className="py-5 sm:py-8">
@@ -159,7 +167,7 @@ export default function Article() {
 
                           <div className="ml-4 pt-3 sm:pt-2 md:ml-8 lg:ml-16">
                             <span className="block font-bold text-gray-800 md:text-lg">
-                              Rp. 50.000
+                              Rp. {addThousandsSeparators(item.price)}
                             </span>
                           </div>
                         </div>
@@ -174,7 +182,7 @@ export default function Article() {
                   <div className="space-y-1">
                     <div className="flex justify-between gap-4 text-gray-500">
                       <span>Subtotal</span>
-                      <span>{'Rp. ' + addThousandsSeparators(totalCount)}</span>
+                      <span>{"Rp. " + addThousandsSeparators(totalCount)}</span>
                     </div>
 
                     {/* <div className="flex justify-between gap-4 text-gray-500">
@@ -188,7 +196,9 @@ export default function Article() {
                       <span className="text-lg font-bold">Total</span>
 
                       <span className="flex flex-col items-end">
-                        <span className="text-lg font-bold">{'Rp. ' + addThousandsSeparators(totalCount)}</span>
+                        <span className="text-lg font-bold">
+                          {"Rp. " + addThousandsSeparators(totalCount)}
+                        </span>
                       </span>
                     </div>
                   </div>

@@ -58,7 +58,6 @@ function* fetchItem(parameter) {
   console.log('ini', parameter);
   const apiData = yield fetch(`https://ihgma.org/api/marketplace/id/${parameter?.id}`); // Fetch call.
   const data = yield apiData.json(); // Convert to JSON.
-  console.log(data);
   yield put(fetchItemAction(data?.market_listing[0])); // Initiate the action on fetch success.
 }
 

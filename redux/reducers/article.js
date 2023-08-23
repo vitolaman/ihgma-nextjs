@@ -14,6 +14,9 @@ const initialState = {
   // item section
   itemList: [],
   item: [],
+  //account section
+  isLogin: false,
+  profile: [],
 };
 
 const getArticles = (state = initialState, action) => {

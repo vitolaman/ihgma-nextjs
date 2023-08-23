@@ -20,6 +20,10 @@ export default function Article() {
   );
   const [buyCount, setBuyCount] = useState(1);
 
+  function addThousandsSeparators(number) {
+    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  }
+
   useEffect(() => {
     if (id) {
       dispatch({
@@ -70,7 +74,7 @@ export default function Article() {
                   <p className="pt-3 text-gray-900">
                     {fetchedItem?.description}
                   </p>
-                  <p className="pt-3 text-gray-900">IDR 50.000</p>
+                  <p className="pt-3 text-gray-900">IDR {addThousandsSeparators(fetchedItem?.price)}</p>
                   <div className="mt-4 flex rounded-lg text-lg" role="group">
                     <button
                       onClick={() => {
