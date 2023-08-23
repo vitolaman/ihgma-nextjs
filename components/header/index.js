@@ -311,7 +311,10 @@ function Header() {
                     </a>
                   </li>
                   <li>
-                    <a className="block px-4 py-2 hover:bg-gray-100">
+                    <a
+                      onClick={() => router.push(`/vacancy/`)}
+                      className="block px-4 py-2 hover:bg-gray-100"
+                    >
                       Job Vacancy
                     </a>
                   </li>
