@@ -16,9 +16,16 @@ const initialState = {
   item: [],
   //account section
   isLogin: false,
+  token: "",
   profile: [],
   //vacancy section
   vacancyList: [],
+  //category section
+  categoryList: [],
+  // auth section
+  registerResponse: [],
+  loginResponse: [],
+  user: [],
 };
 
 const getArticles = (state = initialState, action) => {
@@ -96,6 +103,30 @@ const getArticles = (state = initialState, action) => {
     case ACTION_TYPES.VACANCY_FETCHED:
       // console.log(action);
       return { ...state, vacancyList: action.payload };
+
+    case ACTION_TYPES.CATEGORY_FETCHED:
+      // console.log(action);
+      return { ...state, categoryList: action.payload };
+
+    case ACTION_TYPES.REGISTER_RESPONSE:
+      // console.log(action);
+      return { ...state, registerResponse: action.payload };
+
+    case ACTION_TYPES.LOGIN_RESPONSE:
+      console.log(action.payload.data.account[0]);
+      if (action.payload?.data?.status === "success") {
+        return {
+          ...state,
+          isLogin: true,
+          loginResponse: action.payload,
+          user: action.payload.data.account[0],
+        };
+      }
+      return { ...state, isLogin: false, loginResponse: action.payload };
+
+    case ACTION_TYPES.LOGOUT:
+      // console.log(action);
+      return { ...state, isLogin: false, user:[], loginResponse: [] };
 
     default:
       // console.log(action);

@@ -21,7 +21,7 @@ export default function Article() {
   const [buyCount, setBuyCount] = useState(1);
 
   function addThousandsSeparators(number) {
-    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    return number?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
   }
 
   useEffect(() => {
@@ -40,9 +40,8 @@ export default function Article() {
         type: ACTION_TYPES.ADD_CART,
         item: chartItem,
       });
-      console.log(fetchedCountries);
     },
-    [buyCount, dispatch, fetchedCountries]
+    [buyCount, dispatch]
   );
 
   return (

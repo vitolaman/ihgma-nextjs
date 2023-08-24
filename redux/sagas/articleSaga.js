@@ -1,4 +1,4 @@
-import { takeEvery, put } from "redux-saga/effects";
+import { takeEvery, put, call } from "redux-saga/effects";
 import {
   fetchArticleHomeAction,
   fetchArticleAllAction,
@@ -9,9 +9,13 @@ import {
   fetchAllItemsAction,
   fetchItemAction,
   fetchVacancyAction,
+  fetchCategoryAction,
+  registerAction,
+  loginAction,
   ACTION_TYPES,
 } from "../actions/articleAction";
 import { useSelector } from "react-redux";
+import axios from "axios";
 
 function* fetchArticleHome() {
   const apiData = yield fetch(`https://ihgma.org/api/article/forhome/`); // Fetch call.
@@ -38,7 +42,9 @@ function* fetchArticle(parameter) {
   yield put(fetchArticleAction(data)); // Initiate the action on fetch success.
 }
 function* fetchAdsHome() {
-  const apiData = yield fetch(`https://ihgma.org/api/ads/aGZlNjQybnA4MTM0bjI4OA/welcome-page-01`); // Fetch call.
+  const apiData = yield fetch(
+    `https://ihgma.org/api/ads/aGZlNjQybnA4MTM0bjI4OA/welcome-page-01`
+  ); // Fetch call.
   const data = yield apiData.json(); // Convert to JSON.
   console.log(data);
   yield put(fetchAdsHomeAction(data)); // Initiate the action on fetch success.
@@ -56,8 +62,10 @@ function* fetchAllItems() {
 }
 
 function* fetchItem(parameter) {
-  console.log('ini', parameter);
-  const apiData = yield fetch(`https://ihgma.org/api/marketplace/id/${parameter?.id}`); // Fetch call.
+  console.log("ini", parameter);
+  const apiData = yield fetch(
+    `https://ihgma.org/api/marketplace/id/${parameter?.id}`
+  ); // Fetch call.
   const data = yield apiData.json(); // Convert to JSON.
   yield put(fetchItemAction(data?.market_listing[0])); // Initiate the action on fetch success.
 }
@@ -66,6 +74,57 @@ function* fetchVacancy() {
   const apiData = yield fetch(`https://ihgma.org/api/vacancy/`); // Fetch call.
   const data = yield apiData.json(); // Convert to JSON.
   yield put(fetchVacancyAction(data)); // Initiate the action on fetch success.
+}
+
+function* fetchCategory(parameter) {
+  const apiData = yield fetch(
+    `https://ihgma.org/api/article/category/${parameter?.id}`
+  ); // Fetch call.
+  const data = yield apiData.json(); // Convert to JSON.
+  yield put(fetchCategoryAction(data)); // Initiate the action on fetch success.
+}
+
+function* register(parameter) {
+  const options = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+  const payload = parameter.values;
+  const response = yield call(
+    axios.post,
+    "https://ihgma.org/api/userprofile/register/aGZlNjQybnA4MTM0bjI4OA",
+    {
+      email: payload.email,
+      password: payload.password,
+      name: payload.name,
+      username: payload.username,
+      phone: payload.phone,
+    },
+    options
+  );
+  console.log(response);
+  yield put(registerAction(response)); // Initiate the action on fetch success.
+}
+
+function* login(parameter) {
+  const options = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+  const payload = parameter.values;
+  const response = yield call(
+    axios.post,
+    "https://ihgma.org/api/userprofile/login/aGZlNjQybnA4MTM0bjI4OA",
+    {
+      param: payload.param,
+      password: payload.password,
+    },
+    options
+  );
+  console.log(response);
+  yield put(loginAction(response)); // Initiate the action on fetch success.
 }
 
 export default function* watchArticles() {
@@ -78,4 +137,7 @@ export default function* watchArticles() {
   yield takeEvery(ACTION_TYPES.FETCH_ALL_ITEMS, fetchAllItems);
   yield takeEvery(ACTION_TYPES.FETCH_ITEM, fetchItem);
   yield takeEvery(ACTION_TYPES.FETCH_VACANCY, fetchVacancy);
+  yield takeEvery(ACTION_TYPES.FETCH_CATEGORY, fetchCategory);
+  yield takeEvery(ACTION_TYPES.REGISTER, register);
+  yield takeEvery(ACTION_TYPES.LOGIN, login);
 }

@@ -65,6 +65,8 @@ export default function Article() {
       return "";
     }
     const imageUrl = "https://ihgma.org" + articleData[0]?.main_picture;
+
+    console.log(imageUrl);
     return (
       <div
         className="w-full rounded-xl h-[32rem] bg-cover bg-bottom mb-4"

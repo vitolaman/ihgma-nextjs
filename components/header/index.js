@@ -1,15 +1,33 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import { useSelector, useDispatch } from "react-redux";
+import { ACTION_TYPES } from "../../redux/actions/articleAction";
 
 function Header() {
   const router = useRouter();
+  const dispatch = useDispatch();
   const [isShowProfile, setShowProfile] = useState(false);
   const [isShowMembership, setShowMembership] = useState(false);
   const [isShowNews, setShowNews] = useState(false);
   const [isShowStore, setShowStore] = useState(false);
   const [isShowLive, setShowLive] = useState(false);
+  const [isShowMenu, setShowMenu] = useState(false);
+
+  const isLogin = useSelector((state) => state?.articles?.isLogin);
+  const user = useSelector((state) => state?.articles?.user);
+
+  useEffect(() => {
+    console.log(isShowMenu);
+  }, [isShowMenu]);
+
+  function handleLogout() {
+    setShowMenu(false);
+    dispatch({
+      type: ACTION_TYPES.LOGOUT,
+    });
+  }
 
   return (
     <nav className="bg-white border-gray-200 px-2 sm:px-4 py-2.5">
@@ -38,29 +56,46 @@ function Header() {
               <circle cx="17.5" cy="18.5" r="1.5" />
             </svg>
           </a>
-          <button
-            type="button"
-            className="flex mr-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
-            id="user-menu-button"
-            aria-expanded="false"
-            data-dropdown-toggle="user-dropdown"
-            data-dropdown-placement="bottom"
-          >
-            <span className="sr-only">Open user menu</span>
-            <img
-              className="w-8 h-8 rounded-full"
-              src="https://flowbite.com/docs/images/people/profile-picture-3.jpg"
-              alt="user photo"
-            />
-          </button>
-
+          {isLogin ? (
+            <button
+              type="button"
+              className="flex mr-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
+              id="user-menu-button"
+              aria-expanded="false"
+              data-dropdown-toggle="user-dropdown"
+              data-dropdown-placement="bottom"
+              onClick={() => setShowMenu(!isShowMenu)}
+            >
+              <img
+                className="w-8 h-8 rounded-full"
+                src="https://flowbite.com/docs/images/people/profile-picture-3.jpg"
+                alt="user photo"
+              />
+            </button>
+          ) : (
+            <div>
+              {" "}
+              <button
+                onClick={() => {
+                  router.push("/login");
+                }}
+                className="mt-4 px-2 py-1 text-base font-medium text-center text-white transition duration-500 ease-in-out transform bg-blue-800 lg:px-10 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              >
+                Login
+              </button>
+            </div>
+          )}
           <div
-            className="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100  shadow"
+            className={
+              isShowMenu
+                ? "absolute top-14 z-50 my-4 text-base list-none bg-white divide-y divide-gray-100 shadow"
+                : "z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 shadow"
+            }
             id="user-dropdown"
           >
             <div className="px-4 py-3">
               <span className="block text-sm font-medium text-gray-500 truncate">
-                John Doe
+                {user?.name}
               </span>
             </div>
             <ul className="py-2" aria-labelledby="user-menu-button">
@@ -82,7 +117,7 @@ function Header() {
               </li>
               <li>
                 <a
-                  href="#"
+                  onClick={handleLogout}
                   className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                 >
                   Sign out
@@ -245,7 +280,9 @@ function Header() {
                 >
                   <li>
                     <a
-                      href="addmember.html"
+                      onClick={() => {
+                        router.push("/register");
+                      }}
                       className="block px-4 py-2 hover:bg-gray-100"
                     >
                       New Member
@@ -287,27 +324,69 @@ function Header() {
                   aria-labelledby="dropdownLargeButton"
                 >
                   <li>
-                    <a className="block px-4 py-2 hover:bg-gray-100">
+                    <a
+                      onClick={() =>
+                        router.push(`/category/International
+                      `)
+                      }
+                      className="block px-4 py-2 hover:bg-gray-100"
+                    >
                       International
                     </a>
                   </li>
                   <li>
-                    <a className="block px-4 py-2 hover:bg-gray-100">IHGMA</a>
+                    <a
+                      onClick={() =>
+                        router.push(`/category/IHGMA
+                      `)
+                      }
+                      className="block px-4 py-2 hover:bg-gray-100"
+                    >
+                      IHGMA
+                    </a>
                   </li>
                   <li>
-                    <a className="block px-4 py-2 hover:bg-gray-100">Tourism</a>
+                    <a
+                      onClick={() =>
+                        router.push(`/category/Tourism
+                      `)
+                      }
+                      className="block px-4 py-2 hover:bg-gray-100"
+                    >
+                      Tourism
+                    </a>
                   </li>
                   <li>
-                    <a className="block px-4 py-2 hover:bg-gray-100">
+                    <a
+                      onClick={() =>
+                        router.push(`/category/Hospitality
+                      `)
+                      }
+                      className="block px-4 py-2 hover:bg-gray-100"
+                    >
                       Hospitality
                     </a>
                   </li>
                   <li>
-                    <a className="block px-4 py-2 hover:bg-gray-100">Trend</a>
+                    <a
+                      onClick={() =>
+                        router.push(`/category/Trend
+                      `)
+                      }
+                      className="block px-4 py-2 hover:bg-gray-100"
+                    >
+                      Trend
+                    </a>
                   </li>
                   <li>
-                    <a className="block px-4 py-2 hover:bg-gray-100">
-                      Hot News
+                    <a
+                      onClick={() =>
+                        router.push(`/category/Pariwisata
+                      `)
+                      }
+                      className="block px-4 py-2 hover:bg-gray-100"
+                    >
+                      Pariwisata
                     </a>
                   </li>
                   <li>

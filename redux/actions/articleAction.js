@@ -23,6 +23,15 @@ export const ACTION_TYPES = {
   // vacancy section
   FETCH_VACANCY: "FETCH_VACANCY",
   VACANCY_FETCHED: "VACANCY_FETCHED",
+  // category section
+  FETCH_CATEGORY: "FETCH_CATEGORY",
+  CATEGORY_FETCHED: "CATEGORY_FETCHED",
+  // auth section
+  REGISTER: "REGISTER",
+  REGISTER_RESPONSE: "REGISTER_RESPONSE",
+  LOGIN: "LOGIN",
+  LOGIN_RESPONSE: "LOGIN_RESPONSE",
+  LOGOUT: "LOGOUT",
 };
 
 // Create functions to handle your actions.
@@ -70,6 +79,22 @@ export const fetchVacancyAction = (payload) => ({
   type: ACTION_TYPES.VACANCY_FETCHED,
   payload: payload,
 });
+export const fetchCategoryAction = (payload) => ({
+  type: ACTION_TYPES.CATEGORY_FETCHED,
+  payload: payload,
+});
+export const registerAction = (payload) => ({
+  type: ACTION_TYPES.REGISTER_RESPONSE,
+  payload: payload,
+});
+export const loginAction = (payload) => ({
+  type: ACTION_TYPES.LOGIN_RESPONSE,
+  payload: payload,
+});
+export const logoutAction = (payload) => ({
+  type: ACTION_TYPES.LOGOUT,
+  payload: payload,
+});
 
 export default {
   fetchArticleHomeAction,
@@ -83,4 +108,8 @@ export default {
   fetchAllItemsAction,
   fetchItemAction,
   fetchVacancyAction,
+  fetchCategoryAction,
+  registerAction,
+  loginAction,
+  logoutAction,
 };
