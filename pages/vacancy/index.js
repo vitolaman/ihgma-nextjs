@@ -64,7 +64,7 @@ export default function Home() {
                     <div
                       key={index}
                       className="w-full h-full p-2 flex flex-col"
-                    //   onClick={() => router.push(`/article/${c.id}`)}
+                      onClick={() => router.push(`/vacancy/${c.id}`)}
                     >
                       <a className="h-full bg-white drop-shadow-lg hover:shadow-lg group">
                         <picture className="block overflow-hidden">

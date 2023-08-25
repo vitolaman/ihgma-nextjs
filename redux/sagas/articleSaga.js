@@ -1,5 +1,6 @@
 import { takeEvery, put, call } from "redux-saga/effects";
 import {
+  ACTION_TYPES,
   fetchArticleHomeAction,
   fetchArticleAllAction,
   fetchSidebarAction,
@@ -12,7 +13,7 @@ import {
   fetchCategoryAction,
   registerAction,
   loginAction,
-  ACTION_TYPES,
+  fetchVacancyItemAction,
 } from "../actions/articleAction";
 import { useSelector } from "react-redux";
 import axios from "axios";
@@ -74,6 +75,14 @@ function* fetchVacancy() {
   const apiData = yield fetch(`https://ihgma.org/api/vacancy/`); // Fetch call.
   const data = yield apiData.json(); // Convert to JSON.
   yield put(fetchVacancyAction(data)); // Initiate the action on fetch success.
+}
+
+function* fetchVacancyItem(parameter) {
+  const apiData = yield fetch(
+    `https://ihgma.org/api/vacancy/id/${parameter?.id}`
+  ); // Fetch call.
+  const data = yield apiData.json(); // Convert to JSON.
+  yield put(fetchVacancyItemAction(data)); // Initiate the action on fetch success.
 }
 
 function* fetchCategory(parameter) {
@@ -140,4 +149,5 @@ export default function* watchArticles() {
   yield takeEvery(ACTION_TYPES.FETCH_CATEGORY, fetchCategory);
   yield takeEvery(ACTION_TYPES.REGISTER, register);
   yield takeEvery(ACTION_TYPES.LOGIN, login);
+  yield takeEvery(ACTION_TYPES.FETCH_VACANCY_ITEM, fetchVacancyItem);
 }

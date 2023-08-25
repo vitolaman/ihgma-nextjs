@@ -79,7 +79,7 @@ function Header() {
                 onClick={() => {
                   router.push("/login");
                 }}
-                className="mt-4 px-2 py-1 text-base font-medium text-center text-white transition duration-500 ease-in-out transform bg-blue-800 lg:px-10 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                className="px-2 py-1 text-base font-medium text-center text-white transition duration-500 ease-in-out transform bg-blue-800 lg:px-10 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
               >
                 Login
               </button>

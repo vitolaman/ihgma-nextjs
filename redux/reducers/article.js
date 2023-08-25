@@ -20,6 +20,7 @@ const initialState = {
   profile: [],
   //vacancy section
   vacancyList: [],
+  vacancy: [],
   //category section
   categoryList: [],
   // auth section
@@ -104,6 +105,9 @@ const getArticles = (state = initialState, action) => {
       // console.log(action);
       return { ...state, vacancyList: action.payload };
 
+    case ACTION_TYPES.VACANCY_ITEM_FETCHED:
+      return { ...state, vacancy: action.payload };
+
     case ACTION_TYPES.CATEGORY_FETCHED:
       // console.log(action);
       return { ...state, categoryList: action.payload };
@@ -126,7 +130,7 @@ const getArticles = (state = initialState, action) => {
 
     case ACTION_TYPES.LOGOUT:
       // console.log(action);
-      return { ...state, isLogin: false, user:[], loginResponse: [] };
+      return { ...state, isLogin: false, user: [], loginResponse: [] };
 
     default:
       // console.log(action);
