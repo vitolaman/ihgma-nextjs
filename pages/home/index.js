@@ -65,11 +65,10 @@ export default function Home() {
       return null;
     }
     const index = getRandomIndex(adsData);
-    const result = adsData[index]?.url.substring(1);
-    const adsUrl = "https://dashboard.ihgma.org" + result;
+    const result = adsData[index]?.url;
     return (
       <div>
-        <img src={adsUrl} alt="Frame-1" />
+        <img src={result} alt="Frame-1" />
       </div>
     );
   }, [adsData]);
@@ -164,7 +163,7 @@ export default function Home() {
                         <picture className="block overflow-hidden">
                           <img
                             className="object-cover w-full h-60"
-                            src={"https://ihgma.org/" + c?.main_picture}
+                            src={c?.main_picture}
                           />
                         </picture>
                         <div className="px-5 pb-5">
@@ -267,7 +266,7 @@ export default function Home() {
                       <picture className="block overflow-hidden">
                         <img
                           className="object-cover w-full h-60"
-                          src={"https://ihgma.org" + item.main_picture}
+                          src={item.main_picture}
                         />
                       </picture>
                       <div className="px-5 pb-5">

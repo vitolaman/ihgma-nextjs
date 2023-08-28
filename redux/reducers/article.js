@@ -117,7 +117,6 @@ const getArticles = (state = initialState, action) => {
       return { ...state, registerResponse: action.payload };
 
     case ACTION_TYPES.LOGIN_RESPONSE:
-      console.log(action.payload.data.account[0]);
       if (action.payload?.data?.status === "success") {
         return {
           ...state,

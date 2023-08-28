@@ -78,7 +78,7 @@ export default function Home() {
                         <picture className="block overflow-hidden">
                           <img
                             className="object-cover w-full h-60"
-                            src={"https://ihgma.org/" + c?.main_picture}
+                            src={c?.main_picture}
                           />
                         </picture>
                         <div className="px-5 pb-5">

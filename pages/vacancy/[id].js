@@ -54,7 +54,7 @@ export default function Article() {
     }
 
     return (
-      <h1 className="mb-8 text-3xl font-extrabold text-black">
+      <h1 className="mb-2 text-3xl font-extrabold text-black">
         {articleData[0]?.title}
       </h1>
     );
@@ -64,7 +64,7 @@ export default function Article() {
     if (articleData.length === 0) {
       return "";
     }
-    const imageUrl = "https://ihgma.org" + articleData[0]?.main_picture;
+    const imageUrl = articleData[0]?.main_picture;
 
     console.log(imageUrl);
     return (
@@ -80,40 +80,42 @@ export default function Article() {
       if (articleSidebarData.length === 0) {
         return null;
       }
-      const imageUrl = "https://ihgma.org" + item?.main_picture;
+      const imageUrl = item?.main_picture;
       return (
         <div
-          // onClick={() => router.push(`/article/${item.id}`)}
+          onClick={() => router.push(`/article/${item.id}`)}
           className="relative overflow-hidden rounded-xl sm:rounded-2xl border my-4"
         >
-          <div
-            className="h-[109px] md:h-[144px] overflow-hidden bg-cover"
-            style={{ backgroundImage: `url(${imageUrl})` }}
-          ></div>
-          <div className="absolute top-0 left-0 p-2">
-            <div className="rounded-2xl bg-blue-100 text-blue-800 p-1 sm:p-2 text-[9px] sm:text-xs">
-              <p>{item?.category}</p>
+          <a>
+            <div
+              className="h-[109px] md:h-[144px] overflow-hidden bg-cover"
+              style={{ backgroundImage: `url(${imageUrl})` }}
+            ></div>
+            <div className="absolute top-0 left-0 p-2">
+              <div className="rounded-2xl bg-blue-100 text-blue-800 p-1 sm:p-2 text-[9px] sm:text-xs">
+                <p>{item?.category}</p>
+              </div>
             </div>
-          </div>
-          <div className="p-2 md:p-3 bg-white">
-            <div className="relative">
-              <div className="text-start">
-                <h1 className="font-bold text-[10px] md:text-sm mb-1 multiline-ellipsis">
-                  {item?.title}
-                </h1>
-                {/* <p className="text-[9px] mb-4 md:text-xs multiline-ellipsis">
+            <div className="p-2 md:p-3 bg-white">
+              <div className="relative">
+                <div className="text-start">
+                  <h1 className="font-bold text-[10px] md:text-sm mb-1 multiline-ellipsis">
+                    {item?.title}
+                  </h1>
+                  {/* <p className="text-[9px] mb-4 md:text-xs multiline-ellipsis">
                   5 Manfaat Detox yang Dapat Menunjang Kesehatan Tubuh Lorem
                   Ipsum is simply dummy text of the printing and typesetting
                   industry. Lorem Ipsum has been the industrys standard dummy
                   text ever since{" "}
                 </p> */}
+                </div>
               </div>
             </div>
-          </div>
+          </a>
         </div>
       );
     },
-    [articleSidebarData.length]
+    [articleSidebarData.length, router]
   );
 
   const renderArticle = useCallback(() => {
@@ -144,8 +146,51 @@ export default function Article() {
       <main>
         <Header />
         <section className="bg-white pb-8 lg:px-36">
-          <div className="container mx-auto flex items-center flex-wrap pt-4 pb-12 px-8 md:px-0">
+          <div className="container mx-auto flex flex-col justify-center items-start flex-wrap pt-4 px-8 md:px-0">
             {renderTitle()}
+            <div className="bg-white py-4 flex items-center flex-wrap">
+              <ul className="flex items-center">
+                <li className="inline-flex items-center">
+                  <a
+                    onClick={() => router.push("/home/")}
+                    className="text-gray-600 hover:text-blue-500"
+                  >
+                    <svg
+                      className="w-5 h-auto fill-current mx-2 text-gray-400"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="#000000"
+                    >
+                      <path d="M0 0h24v24H0V0z" fill="none" />
+                      <path d="M10 19v-5h4v5c0 .55.45 1 1 1h3c.55 0 1-.45 1-1v-7h1.7c.46 0 .68-.57.33-.87L12.67 3.6c-.38-.34-.96-.34-1.34 0l-8.36 7.53c-.34.3-.13.87.33.87H5v7c0 .55.45 1 1 1h3c.55 0 1-.45 1-1z" />
+                    </svg>
+                  </a>
+
+                  <span className="mx-4 h-auto text-gray-400 font-medium">
+                    /
+                  </span>
+                </li>
+
+                <li className="inline-flex items-center">
+                  <a
+                    onClick={() => router.push("/vacancy/")}
+                    className="text-gray-600 hover:text-blue-500"
+                  >
+                    Vacancy
+                  </a>
+
+                  <span className="mx-4 h-auto text-gray-400 font-medium">
+                    /
+                  </span>
+                </li>
+
+                <li className="inline-flex items-center">
+                  <a href="#" className="text-gray-600 hover:text-blue-500">
+                    {articleData[0]?.title || ""}
+                  </a>
+                </li>
+              </ul>
+            </div>
             <div className="flex flex-col md:flex-row w-full">
               <div className="md:basis-3/4 mr-10">
                 {renderMainImage()}
