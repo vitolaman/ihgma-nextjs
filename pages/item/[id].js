@@ -62,7 +62,7 @@ export default function Article() {
                   <picture className="rounded-lg block overflow-hidden">
                     <img
                       className="object-cover w-full h-60"
-                      src={"https://ihgma.org" + fetchedItem?.main_picture}
+                      src={fetchedItem?.main_picture}
                     />
                   </picture>
                 </div>

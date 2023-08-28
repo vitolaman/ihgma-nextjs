@@ -83,7 +83,7 @@ export default function Article() {
                             className="group relative block h-56 w-56 overflow-hidden  bg-gray-100"
                           >
                             <img
-                              src={"https://ihgma.org" + item?.main_picture}
+                              src={item?.main_picture}
                               loading="lazy"
                               alt="Photo by Thái An"
                               className="h-full w-full object-cover object-center transition duration-200 group-hover:scale-110"
