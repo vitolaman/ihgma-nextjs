@@ -17,7 +17,13 @@ export default function Article() {
   );
 
   const [values, setValues] = useState({
+    birthdate: new Date(),
+    id: "",
+    address: "",
     email: "",
+    hotel: "",
+    hotel_add: "",
+    dpd: "",
     name: "",
     username: "",
     phone: "",
@@ -26,6 +32,13 @@ export default function Article() {
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
+    if (name == "birthdate") {
+      const selectedDate = new Date(value);
+      const year = selectedDate.getFullYear();
+      const month = String(selectedDate.getMonth() + 1).padStart(2, "0");
+      const day = String(selectedDate.getDate()).padStart(2, "0");
+      const formattedDate = `${year}-${month}-${day}`;
+    }
     setValues((prev) => ({
       ...prev,
       [name]: value,
@@ -60,44 +73,6 @@ export default function Article() {
           <p className="mb-4 font-semibold">New Member Form</p>
           <div className="mb-6">
             <label
-              // for="email"
-              className="block mb-2 text-sm font-medium text-gray-900"
-            >
-              Email
-            </label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-              placeholder="name@example.com"
-              value={values.email}
-              onChange={handleInputChange}
-              required
-            ></input>
-          </div>
-          <div className="mb-6">
-            <label
-              // for="name"
-              className="block mb-2 text-sm font-medium text-gray-900"
-            >
-              Username
-            </label>
-            <input
-              type="name"
-              id="username"
-              name="username"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-              placeholder="JohnDoe123"
-              title="Jangan menggunakan spasi maupun karakter spesial"
-              pattern="^[a-zA-Z0-9]*$"
-              value={values.username}
-              onChange={handleInputChange}
-              required
-            ></input>
-          </div>
-          <div className="mb-6">
-            <label
               // for="name"
               className="block mb-2 text-sm font-medium text-gray-900"
             >
@@ -110,6 +85,58 @@ export default function Article() {
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
               placeholder="John Doe"
               value={values.fullName}
+              onChange={handleInputChange}
+              required
+            ></input>
+          </div>
+          <div className="mb-6">
+            <label
+              // for="email"
+              className="block mb-2 text-sm font-medium text-gray-900"
+            >
+              Birthdate
+            </label>
+            <input
+              type="date"
+              id="birthdate"
+              name="birthdate"
+              value={values.birthdate}
+              onChange={handleInputChange}
+              className="border rounded px-2 py-1"
+            />
+          </div>
+          <div className="mb-6">
+            <label
+              // for="email"
+              className="block mb-2 text-sm font-medium text-gray-900"
+            >
+              ID KTP / SIM
+            </label>
+            <input
+              type="number"
+              id="id"
+              name="id"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+              placeholder="3510000000000000"
+              value={values.id}
+              onChange={handleInputChange}
+              required
+            ></input>
+          </div>
+          <div className="mb-6">
+            <label
+              // for="email"
+              className="block mb-2 text-sm font-medium text-gray-900"
+            >
+              Home Address
+            </label>
+            <input
+              type="text"
+              id="address"
+              name="address"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+              placeholder="Jalan Mawar no 31, Jakarta Barat"
+              value={values.address}
               onChange={handleInputChange}
               required
             ></input>
@@ -135,6 +162,99 @@ export default function Article() {
           </div>
           <div className="mb-6">
             <label
+              // for="email"
+              className="block mb-2 text-sm font-medium text-gray-900"
+            >
+              Email
+            </label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+              placeholder="name@example.com"
+              value={values.email}
+              onChange={handleInputChange}
+              required
+            ></input>
+          </div>
+          <div className="mb-6">
+            <label
+              // for="email"
+              className="block mb-2 text-sm font-medium text-gray-900"
+            >
+              Current Hotel
+            </label>
+            <input
+              type="text"
+              id="hotel"
+              name="hotel"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+              placeholder="Hotel Melati"
+              value={values.hotel}
+              onChange={handleInputChange}
+              required
+            ></input>
+          </div>
+          <div className="mb-6">
+            <label
+              // for="email"
+              className="block mb-2 text-sm font-medium text-gray-900"
+            >
+              Hotel Address
+            </label>
+            <input
+              type="text"
+              id="hotel_add"
+              name="hotel_add"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+              placeholder="Jalan Mawar no 31, Jakarta Barat"
+              value={values.hotel_add}
+              onChange={handleInputChange}
+              required
+            ></input>
+          </div>
+          <div className="mb-6">
+            <label
+              // for="email"
+              className="block mb-2 text-sm font-medium text-gray-900"
+            >
+              DPD (Dewan Pimpinan Daerah)
+            </label>
+            <input
+              type="text"
+              id="dpd"
+              name="dpd"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+              // placeholder="Jalan Mawar no 31, Jakarta Barat"
+              value={values.dpd}
+              onChange={handleInputChange}
+              required
+            ></input>
+          </div>
+          <div className="mb-6">
+            <label
+              // for="name"
+              className="block mb-2 text-sm font-medium text-gray-900"
+            >
+              Username
+            </label>
+            <input
+              type="name"
+              id="username"
+              name="username"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+              placeholder="JohnDoe123"
+              title="Jangan menggunakan spasi maupun karakter spesial"
+              pattern="^[a-zA-Z0-9]*$"
+              value={values.username}
+              onChange={handleInputChange}
+              required
+            ></input>
+          </div>
+
+          <div className="mb-6">
+            <label
               // for="password"
               className="block mb-2 text-sm font-medium text-gray-900"
             >
@@ -151,10 +271,14 @@ export default function Article() {
             ></input>{" "}
           </div>
           {registerResponse?.data?.status == "error" && (
-            <p className="text-base text-red-600 font-bold mb-4 ml-2">ERROR: {registerResponse?.data?.msg}</p>
+            <p className="text-base text-red-600 font-bold mb-4 ml-2">
+              ERROR: {registerResponse?.data?.msg}
+            </p>
           )}
           {registerResponse?.data?.status == "success" && (
-            <p className="text-base text-green-600 font-bold mb-4 ml-2">Pendaftaran berhasil, Silahkan tunggu konfirmasi dari admin</p>
+            <p className="text-base text-green-600 font-bold mb-4 ml-2">
+              Pendaftaran berhasil, Silahkan tunggu konfirmasi dari admin
+            </p>
           )}
           <button
             type="submit"
