@@ -12,18 +12,17 @@ export default function Article() {
   const dispatch = useDispatch();
   const router = useRouter();
 
-  const registerResponse = useSelector(
-    (state) => state?.articles?.registerResponse
+  const upgradeResponse = useSelector(
+    (state) => state?.articles?.upgradeResponse
   );
+  const dpdList = useSelector((state) => state?.articles?.dpd?.dpd);
+  const user = useSelector((state) => state?.articles?.user);
 
   const [values, setValues] = useState({
-    birthdate: new Date(),
-    address: "",
-    email: "",
-    name: "",
-    username: "",
-    phone: "",
-    password: "",
+    id: "",
+    hotel: "",
+    hotel_add: "",
+    dpd: "",
   });
 
   const handleInputChange = (event) => {
@@ -43,24 +42,25 @@ export default function Article() {
 
   useEffect(() => {
     dispatch({
-      type: ACTION_TYPES.REGISTER_CLEAR,
+      type: ACTION_TYPES.FETCH_DPD,
+    });
+  }, [dispatch]);
+  useEffect(() => {
+    console.log(values);
+  }, [values]);
+
+  useEffect(() => {
+    dispatch({
+      type: ACTION_TYPES.UPGRADE_CLEAR,
     });
   }, []);
 
   function handleSubmit(event) {
     event.preventDefault();
+    const params = { values, uid: user.uid };
     dispatch({
-      type: ACTION_TYPES.REGISTER,
-      values,
-    });
-    setValues({
-      birthdate: new Date(),
-      address: "",
-      email: "",
-      name: "",
-      username: "",
-      phone: "",
-      password: "",
+      type: ACTION_TYPES.UPGRADE,
+      params,
     });
   }
 
@@ -77,7 +77,7 @@ export default function Article() {
           onSubmit={handleSubmit}
           className="bg-white border border-gray-200 rounded-lg shadow p-4"
         >
-          <p className="mb-4 font-semibold">Register User Form</p>
+          <p className="mb-4 font-semibold">New Member Form</p>
           <div className="mb-6">
             <label
               // for="name"
@@ -89,10 +89,11 @@ export default function Article() {
               type="name"
               id="name"
               name="name"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+              className="bg-gray-200 border border-gray-500 text-gray-500 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
               placeholder="John Doe"
-              value={values.name}
+              value={user.name}
               onChange={handleInputChange}
+              disabled
               required
             ></input>
           </div>
@@ -107,10 +108,29 @@ export default function Article() {
               type="date"
               id="birthdate"
               name="birthdate"
-              value={values.birthdate}
+              value={user.birthdate}
               onChange={handleInputChange}
-              className="border rounded px-2 py-1"
+              className="border rounded bg-gray-200 text-gray-500 px-2 py-1"
+              disabled
             />
+          </div>
+          <div className="mb-6">
+            <label
+              // for="email"
+              className="block mb-2 text-sm font-medium text-gray-900"
+            >
+              ID KTP / SIM
+            </label>
+            <input
+              type="number"
+              id="id"
+              name="id"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+              placeholder="masukan nomor KTP / SIM"
+              value={values.id}
+              onChange={handleInputChange}
+              required
+            ></input>
           </div>
           <div className="mb-6">
             <label
@@ -123,11 +143,12 @@ export default function Article() {
               type="text"
               id="address"
               name="address"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+              className="bg-gray-200 border border-gray-500 text-gray-500 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
               placeholder="Jalan Mawar no 31, Jakarta Barat"
-              value={values.address}
+              value={user.home_address}
               onChange={handleInputChange}
               required
+              disabled
             ></input>
           </div>
           <div className="mb-6">
@@ -142,11 +163,12 @@ export default function Article() {
               pattern="^\d{9,13}$"
               id="phone"
               name="phone"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+              className="bg-gray-200 border border-gray-500 text-gray-500 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
               placeholder="Phone number (123-456-7890)"
-              value={values.phone}
+              value={user.phone}
               onChange={handleInputChange}
               required
+              disabled
             ></input>
           </div>
           <div className="mb-6">
@@ -160,12 +182,64 @@ export default function Article() {
               type="email"
               id="email"
               name="email"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+              className="bg-gray-200 border border-gray-500 text-gray-500 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
               placeholder="name@example.com"
-              value={values.email}
+              value={user.email}
+              onChange={handleInputChange}
+              required
+              disabled
+            ></input>
+          </div>
+          <div className="mb-6">
+            <label
+              // for="email"
+              className="block mb-2 text-sm font-medium text-gray-900"
+            >
+              Current Hotel
+            </label>
+            <input
+              type="text"
+              id="hotel"
+              name="hotel"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+              placeholder="Masukan Nama Hotel"
+              value={values.hotel}
               onChange={handleInputChange}
               required
             ></input>
+          </div>
+          <div className="mb-6">
+            <label
+              // for="email"
+              className="block mb-2 text-sm font-medium text-gray-900"
+            >
+              Hotel Address
+            </label>
+            <input
+              type="text"
+              id="hotel_add"
+              name="hotel_add"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+              placeholder="Masukan Alamat Hotel"
+              value={values.hotel_add}
+              onChange={handleInputChange}
+              required
+            ></input>
+          </div>
+          <div className="mb-6">
+            <label
+              // for="email"
+              className="block mb-2 text-sm font-medium text-gray-900"
+            >
+              DPD (Dewan Pimpinan Daerah)
+            </label>
+            <select className="rounded-lg" name="dpd" id="dpd" onChange={handleInputChange} required>
+              {dpdList?.map((dpd, index) => (
+                <option key={index} value={dpd?.code}>
+                  {dpd?.region}
+                </option>
+              ))}
+            </select>
           </div>
           <div className="mb-6">
             <label
@@ -178,46 +252,29 @@ export default function Article() {
               type="name"
               id="username"
               name="username"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+              className="bg-gray-200 border border-gray-500 text-gray-500 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
               placeholder="JohnDoe123"
               title="Jangan menggunakan spasi maupun karakter spesial"
               pattern="^[a-zA-Z0-9]*$"
-              value={values.username}
+              value={user.username}
               onChange={handleInputChange}
               required
+              disabled
             ></input>
           </div>
-
-          <div className="mb-6">
-            <label
-              // for="password"
-              className="block mb-2 text-sm font-medium text-gray-900"
-            >
-              Password
-            </label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-              required
-              value={values.password}
-              onChange={handleInputChange}
-            ></input>{" "}
-          </div>
-          {registerResponse?.data?.status == "error" && (
+          {upgradeResponse?.data?.status == "error" && (
             <p className="text-base text-red-600 font-bold mb-4 ml-2">
-              ERROR: {registerResponse?.data?.msg}
+              ERROR: {upgradeResponse?.data?.msg}
             </p>
           )}
-          {registerResponse?.data?.status == "success" && (
+          {upgradeResponse?.data?.status == "success" && (
             <p className="text-base text-green-600 font-bold mb-4 ml-2">
               Pendaftaran berhasil, Silahkan tunggu konfirmasi dari admin
             </p>
           )}
           <button
             type="submit"
-            onClick={handleSubmit}
+            // onClick={handleSubmit}
             className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
           >
             Register

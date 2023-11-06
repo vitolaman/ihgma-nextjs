@@ -7,26 +7,13 @@ import { Header, Footer } from "../../components";
 import { useRouter } from "next/router";
 
 import { ACTION_TYPES } from "../../redux/actions/articleAction";
+import userRole from "../../libs/constant";
 
 export default function Article() {
   const dispatch = useDispatch();
   const router = useRouter();
   // Using the useSelector Hook to fetch the state from store.
-
-  const cartList = useSelector((state) => state?.articles?.cart);
-  const totalCount = cartList.reduce(
-    (total, item) => getSum(total, item.price * item.count),
-    0
-  );
-
-  function addThousandsSeparators(number) {
-    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-  }
-
-  function getSum(total, num) {
-    console.log(total);
-    return total + Math.round(num);
-  }
+  const user = useSelector((state) => state?.articles?.user);
 
   const handleUpdateCount = useCallback(
     (index, count) => {
@@ -49,8 +36,8 @@ export default function Article() {
   );
 
   useEffect(() => {
-    console.log(cartList);
-  }, [cartList]);
+    console.log(user);
+  }, [user]);
 
   return (
     <div>
@@ -64,18 +51,23 @@ export default function Article() {
         <Header />
         <section className="bg-white py-8 lg:px-36">
           <div className="container mx-auto flex items-center flex-wrap px-4">
-            <object
-              data="https://ihgma.org/assets/adart.pdf"
-              width="100%"
-              className="h-[400px] md:h-[800px]"
-            >
-              <p>Oops! Your browser doesn&apos;t support PDFs!</p>
-              <p>
-                <a href="https://ihgma.org/assets/adart.pdf">
-                  Download Instead
-                </a>
-              </p>
-            </object>
+            {user?.role == userRole.User ||
+            user?.role == userRole.UserNonaktif ? (
+              <p>You are not allowed to access AD/ART File</p>
+            ) : (
+              <object
+                data="https://ihgma.org/assets/adart.pdf"
+                width="100%"
+                className="h-[400px] md:h-[800px]"
+              >
+                <p>Oops! Your browser doesn&apos;t support PDFs!</p>
+                <p>
+                  <a href="https://ihgma.org/assets/adart.pdf">
+                    Download Instead
+                  </a>
+                </p>
+              </object>
+            )}
           </div>
         </section>
         <Footer />

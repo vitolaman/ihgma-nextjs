@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useSelector, useDispatch } from "react-redux";
 import { ACTION_TYPES } from "../../redux/actions/articleAction";
+import userRole from "../../libs/constant";
 
 function Header() {
   const router = useRouter();
@@ -74,14 +75,21 @@ function Header() {
             </button>
           ) : (
             <div>
-              {" "}
               <button
                 onClick={() => {
                   router.push("/login");
                 }}
-                className="px-2 py-1 text-base font-medium text-center text-white transition duration-500 ease-in-out transform bg-blue-800 lg:px-10 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                className="px-2 py-1 text-base font-medium text-center text-white transition duration-500 ease-in-out transform bg-blue-800 mr-2 lg:px-10 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
               >
                 Login
+              </button>
+              <button
+                onClick={() => {
+                  router.push("/register");
+                }}
+                className="px-2 py-1 text-base font-medium text-center text-blue-800 transition duration-500 ease-in-out transform border-2 border-blue-800 lg:px-10 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              >
+                Register
               </button>
             </div>
           )}
@@ -248,7 +256,7 @@ function Header() {
                 DPD
               </a>
             </li>
-            {isLogin && (
+            {user?.role == userRole.User && (
               <li className="relative ">
                 <button
                   onClick={() => setShowMembership(!isShowMembership)}
@@ -284,7 +292,7 @@ function Header() {
                     <li>
                       <a
                         onClick={() => {
-                          router.push("/register");
+                          router.push("/upgrade");
                         }}
                         className="block px-4 py-2 hover:bg-gray-100"
                       >

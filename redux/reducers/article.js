@@ -27,6 +27,9 @@ const initialState = {
   registerResponse: [],
   loginResponse: [],
   user: [],
+  // upgrade section
+  dpd: [],
+  upgradeResponse: [],
 };
 
 const getArticles = (state = initialState, action) => {
@@ -115,6 +118,22 @@ const getArticles = (state = initialState, action) => {
     case ACTION_TYPES.REGISTER_RESPONSE:
       // console.log(action);
       return { ...state, registerResponse: action.payload };
+
+    case ACTION_TYPES.UPGRADE_RESPONSE:
+      // console.log(action);
+      return { ...state, upgradeResponse: action.payload };
+
+    case ACTION_TYPES.REGISTER_CLEAR:
+      // console.log(action);
+      return { ...state, registerResponse: [] };
+
+    case ACTION_TYPES.UPGRADE_CLEAR:
+      // console.log(action);
+      return { ...state, upgradeResponse: [] };
+
+    case ACTION_TYPES.DPD_FETCHED:
+      // console.log(action);
+      return { ...state, dpd: action.payload };
 
     case ACTION_TYPES.LOGIN_RESPONSE:
       if (action.payload?.data?.status === "success") {

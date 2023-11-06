@@ -30,10 +30,17 @@ export const ACTION_TYPES = {
   CATEGORY_FETCHED: "CATEGORY_FETCHED",
   // auth section
   REGISTER: "REGISTER",
+  REGISTER_CLEAR: "REGISTER_CLEAR",
   REGISTER_RESPONSE: "REGISTER_RESPONSE",
   LOGIN: "LOGIN",
   LOGIN_RESPONSE: "LOGIN_RESPONSE",
   LOGOUT: "LOGOUT",
+  // upgrade section
+  FETCH_DPD: "FETCH_DPD",
+  DPD_FETCHED: "DPD_FETCHED",
+  UPGRADE: "UPGRADE",
+  UPGRADE_CLEAR: "UPGRADE_CLEAR",
+  UPGRADE_RESPONSE: "UPGRADE_RESPONSE",
 };
 
 // Create functions to handle your actions.
@@ -101,6 +108,14 @@ export const logoutAction = (payload) => ({
   type: ACTION_TYPES.LOGOUT,
   payload: payload,
 });
+export const upgradeAction = (payload) => ({
+  type: ACTION_TYPES.UPGRADE_RESPONSE,
+  payload: payload,
+});
+export const fetchDpdAction = (payload) => ({
+  type: ACTION_TYPES.DPD_FETCHED,
+  payload: payload,
+});
 
 export default {
   fetchArticleHomeAction,
@@ -118,5 +133,6 @@ export default {
   registerAction,
   loginAction,
   logoutAction,
+  upgradeAction,
   fetchVacancyItemAction,
 };

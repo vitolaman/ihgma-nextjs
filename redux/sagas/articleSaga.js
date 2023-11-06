@@ -13,7 +13,9 @@ import {
   fetchCategoryAction,
   registerAction,
   loginAction,
+  upgradeAction,
   fetchVacancyItemAction,
+  fetchDpdAction,
 } from "../actions/articleAction";
 import { useSelector } from "react-redux";
 import axios from "axios";
@@ -109,6 +111,8 @@ function* register(parameter) {
       name: payload.name,
       username: payload.username,
       phone: payload.phone,
+      address: payload.address,
+      birthdate: payload.birthdate,
     },
     options
   );
@@ -133,7 +137,39 @@ function* login(parameter) {
     options
   );
   console.log(response);
-  yield put(loginAction(response)); // Initiate the action on fetch success.
+  yield put(loginAction(response));
+}
+
+function* upgrade(parameter) {
+  const options = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+  const payload = parameter?.params?.values;
+  console.log(parameter?.params);
+  const response = yield call(
+    axios.post,
+    "https://ihgma.org/api/userprofile/upgrademember/aGZlNjQybnA4MTM0bjI4OA",
+    {
+      id: parameter?.params?.values?.id,
+      currentHotel: parameter?.params?.values?.hotel,
+      hotelAddress: parameter?.params?.values?.hotel_add,
+      uid: parameter?.params?.uid,
+      dpd: parameter?.params?.values?.dpd,
+    },
+    options
+  );
+  console.log(response);
+  yield put(upgradeAction(response)); // Initiate the action on fetch success.
+}
+
+function* fetchDpd(parameter) {
+  const apiData = yield fetch(
+    `https://ihgma.org/api/userprofile/dpd/aGZlNjQybnA4MTM0bjI4OA`
+  ); // Fetch call.
+  const data = yield apiData.json(); // Convert to JSON.
+  yield put(fetchDpdAction(data)); // Initiate the action on fetch success.
 }
 
 export default function* watchArticles() {
@@ -149,5 +185,7 @@ export default function* watchArticles() {
   yield takeEvery(ACTION_TYPES.FETCH_CATEGORY, fetchCategory);
   yield takeEvery(ACTION_TYPES.REGISTER, register);
   yield takeEvery(ACTION_TYPES.LOGIN, login);
+  yield takeEvery(ACTION_TYPES.UPGRADE, upgrade);
   yield takeEvery(ACTION_TYPES.FETCH_VACANCY_ITEM, fetchVacancyItem);
+  yield takeEvery(ACTION_TYPES.FETCH_DPD, fetchDpd);
 }

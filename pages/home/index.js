@@ -48,10 +48,6 @@ export default function Home() {
   }, [dispatch]);
 
   useEffect(() => {
-    console.log("ini ", fetchedItems);
-  }, [fetchedItems]);
-
-  useEffect(() => {
     if (fetchedArticles?.artikel) {
       setArticleData(fetchedArticles?.artikel);
     }
