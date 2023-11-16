@@ -19,7 +19,6 @@ export default function Home() {
   const [articleData, setArticleData] = useState([]);
 
   useEffect(() => {
-    // console.log(id);
     if (id) {
       dispatch({
         type: ACTION_TYPES.FETCH_CATEGORY,
@@ -29,14 +28,12 @@ export default function Home() {
   }, [id]);
 
   useEffect(() => {
-    console.log(fetchedCategory);
     if (fetchedCategory?.artikel) {
       setArticleData(fetchedCategory?.artikel);
     }
   }, [fetchedCategory, fetchedCategory?.artikel]);
 
   useEffect(() => {
-    console.log(articleData);
   }, [articleData]);
 
   return (
@@ -67,7 +64,6 @@ export default function Home() {
                   // const content = c.content;
                   // const unescapedHtml = unescape(content);
                   // const sanitizedHtml = unescapedHtml.replace(/\r?\n|\r/g, '');
-                  // console.log(sanitizedHtml);
                   return (
                     <div
                       key={index}

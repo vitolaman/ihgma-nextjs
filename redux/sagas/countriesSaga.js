@@ -10,25 +10,21 @@ import {
 function* fetchArticleHome() {
   const apiData = yield fetch(`https://ihgma.org/api/article/forhome/`); // Fetch call.
   const data = yield apiData.json(); // Convert to JSON.
-  console.log(data);
   yield put(fetchArticleHomeAction(data)); // Initiate the action on fetch success.
 }
 function* fetchArticleAll() {
   const apiData = yield fetch(`https://ihgma.org/api/article/`); // Fetch call.
   const data = yield apiData.json(); // Convert to JSON.
-  console.log(data);
   yield put(fetchArticleAllAction(data)); // Initiate the action on fetch success.
 }
 function* fetchArticleSidebar() {
   const apiData = yield fetch(`https://ihgma.org/api/article/random/`); // Fetch call.
   const data = yield apiData.json(); // Convert to JSON.
-  console.log(data);
   yield put(fetchpayloadidebarAction(data)); // Initiate the action on fetch success.
 }
 function* fetchArticle(parameter) {
   const apiData = yield fetch(`https://ihgma.org/api/article/id/${parameter}`); // Fetch call.
   const data = yield apiData.json(); // Convert to JSON.
-  console.log(data);
   yield put(fetchArticleAction(data)); // Initiate the action on fetch success.
 }
 

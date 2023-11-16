@@ -35,10 +35,6 @@ export default function Article() {
     [dispatch]
   );
 
-  useEffect(() => {
-    console.log(user);
-  }, [user]);
-
   return (
     <div>
       <Head>

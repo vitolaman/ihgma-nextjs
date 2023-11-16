@@ -12,17 +12,26 @@ export default function Article() {
   const dispatch = useDispatch();
   const router = useRouter();
 
-  const upgradeResponse = useSelector(
-    (state) => state?.articles?.upgradeResponse
+  const currentUser = useSelector((state) => state?.articles?.user);
+  const fetchedUser = useSelector(
+    (state) => state?.articles?.fetchProfileResponse
   );
-  const dpdList = useSelector((state) => state?.articles?.dpd?.dpd);
-  const user = useSelector((state) => state?.articles?.user);
+
+  const editProfileResponse = useSelector(
+    (state) => state?.articles?.editProfileResponse
+  );
 
   const [values, setValues] = useState({
+    birthdate: new Date(),
+    address: "",
+    email: "",
+    name: "",
+    username: "",
+    phone: "",
     id: "",
-    hotel: "",
-    hotel_add: "",
-    dpd: dpdList[0]?.code,
+    currentHotel: "",
+    hotelAddress: "",
+    dpd: "",
   });
 
   const handleInputChange = (event) => {
@@ -41,22 +50,32 @@ export default function Article() {
   };
 
   useEffect(() => {
-    dispatch({
-      type: ACTION_TYPES.FETCH_DPD,
-    });
-  }, [dispatch]);
-  useEffect(() => {
-    dispatch({
-      type: ACTION_TYPES.UPGRADE_CLEAR,
-    });
+    if (currentUser) {
+      dispatch({
+        type: ACTION_TYPES.FETCH_PROFILE,
+        payload: { username: currentUser?.username },
+      });
+    }
   }, []);
+
+  useEffect(() => {
+    if (fetchedUser) {
+      setValues({
+        birthdate: fetchedUser?.birth_date || new Date(),
+        address: fetchedUser?.home_address || "",
+        email: fetchedUser?.email || "",
+        name: fetchedUser?.name || "",
+        username: fetchedUser?.username || "",
+        phone: fetchedUser?.phone || "",
+      });
+    }
+  }, [fetchedUser]);
 
   function handleSubmit(event) {
     event.preventDefault();
-    const params = { values, uid: user.uid };
     dispatch({
-      type: ACTION_TYPES.UPGRADE,
-      params,
+      type: ACTION_TYPES.EDIT_PROFILE,
+      payload: { values, uid: currentUser?.uid },
     });
   }
 
@@ -73,7 +92,7 @@ export default function Article() {
           onSubmit={handleSubmit}
           className="bg-white border border-gray-200 rounded-lg shadow p-4"
         >
-          <p className="mb-4 font-semibold">New Member Form</p>
+          <p className="mb-4 font-semibold">Edit Profile Form</p>
           <div className="mb-6">
             <label
               // for="name"
@@ -85,73 +104,43 @@ export default function Article() {
               type="name"
               id="name"
               name="name"
-              className="bg-gray-200 border border-gray-300 text-gray-500 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
               placeholder="John Doe"
-              value={user.name}
+              value={values.name}
               onChange={handleInputChange}
-              disabled
               required
             ></input>
           </div>
           <div className="mb-6">
-            <label
-              
-              className="block mb-2 text-sm font-medium text-gray-900"
-            >
+            <label className="block mb-2 text-sm font-medium text-gray-900">
               Birthdate
             </label>
             <input
               type="date"
               id="birthdate"
               name="birthdate"
-              value={user.birthdate}
+              value={values.birthdate}
               onChange={handleInputChange}
-              className="border rounded bg-gray-200 text-gray-500 px-2 py-1"
-              disabled
+              className="border rounded px-2 py-1"
             />
           </div>
           <div className="mb-6">
-            <label
-              
-              className="block mb-2 text-sm font-medium text-gray-900"
-            >
-              ID KTP / SIM
-            </label>
-            <input
-              type="number"
-              id="id"
-              name="id"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-              placeholder="masukan nomor KTP / SIM"
-              value={values.id}
-              onChange={handleInputChange}
-              required
-            ></input>
-          </div>
-          <div className="mb-6">
-            <label
-              
-              className="block mb-2 text-sm font-medium text-gray-900"
-            >
+            <label className="block mb-2 text-sm font-medium text-gray-900">
               Home Address
             </label>
             <input
               type="text"
               id="address"
               name="address"
-              className="bg-gray-200 border border-gray-300 text-gray-500 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
               placeholder="Jalan Mawar no 31, Jakarta Barat"
-              value={user.home_address}
+              value={values.address}
               onChange={handleInputChange}
               required
-              disabled
             ></input>
           </div>
           <div className="mb-6">
-            <label
-              
-              className="block mb-2 text-sm font-medium text-gray-900"
-            >
+            <label className="block mb-2 text-sm font-medium text-gray-900">
               Phone Number
             </label>
             <input
@@ -159,83 +148,27 @@ export default function Article() {
               pattern="^\d{9,13}$"
               id="phone"
               name="phone"
-              className="bg-gray-200 border border-gray-300 text-gray-500 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
               placeholder="Phone number (123-456-7890)"
-              value={user.phone}
+              value={values.phone}
               onChange={handleInputChange}
               required
-              disabled
             ></input>
           </div>
           <div className="mb-6">
-            <label
-              
-              className="block mb-2 text-sm font-medium text-gray-900"
-            >
+            <label className="block mb-2 text-sm font-medium text-gray-900">
               Email
             </label>
             <input
               type="email"
               id="email"
               name="email"
-              className="bg-gray-200 border border-gray-300 text-gray-500 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
               placeholder="name@example.com"
-              value={user.email}
-              onChange={handleInputChange}
-              required
-              disabled
-            ></input>
-          </div>
-          <div className="mb-6">
-            <label
-              
-              className="block mb-2 text-sm font-medium text-gray-900"
-            >
-              Current Hotel
-            </label>
-            <input
-              type="text"
-              id="hotel"
-              name="hotel"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-              placeholder="Masukan Nama Hotel"
-              value={values.hotel}
+              value={values.email}
               onChange={handleInputChange}
               required
             ></input>
-          </div>
-          <div className="mb-6">
-            <label
-              
-              className="block mb-2 text-sm font-medium text-gray-900"
-            >
-              Hotel Address
-            </label>
-            <input
-              type="text"
-              id="hotel_add"
-              name="hotel_add"
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-              placeholder="Masukan Alamat Hotel"
-              value={values.hotel_add}
-              onChange={handleInputChange}
-              required
-            ></input>
-          </div>
-          <div className="mb-6">
-            <label
-              
-              className="block mb-2 text-sm font-medium text-gray-900"
-            >
-              DPD (Dewan Pimpinan Daerah)
-            </label>
-            <select className="rounded-lg" name="dpd" id="dpd" onChange={handleInputChange} required>
-              {dpdList?.map((dpd, index) => (
-                <option key={index} value={dpd?.code}>
-                  {dpd?.region}
-                </option>
-              ))}
-            </select>
           </div>
           <div className="mb-6">
             <label
@@ -252,28 +185,28 @@ export default function Article() {
               placeholder="JohnDoe123"
               title="Jangan menggunakan spasi maupun karakter spesial"
               pattern="^[a-zA-Z0-9]*$"
-              value={user.username}
+              value={values.username}
               onChange={handleInputChange}
               required
               disabled
             ></input>
           </div>
-          {upgradeResponse?.data?.status == "error" && (
+          {editProfileResponse?.data?.status == "error" && (
             <p className="text-base text-red-600 font-bold mb-4 ml-2">
-              ERROR: {upgradeResponse?.data?.msg}
+              ERROR: {editProfileResponse?.data?.msg}
             </p>
           )}
-          {upgradeResponse?.data?.status == "success" && (
+          {editProfileResponse?.data?.status == "success" && (
             <p className="text-base text-green-600 font-bold mb-4 ml-2">
               Pendaftaran berhasil, Silahkan tunggu konfirmasi dari admin
             </p>
           )}
           <button
             type="submit"
-            // onClick={handleSubmit}
+            onClick={handleSubmit}
             className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
           >
-            Register
+            Submit
           </button>
         </form>
       </section>

@@ -35,6 +35,11 @@ export const ACTION_TYPES = {
   LOGIN: "LOGIN",
   LOGIN_RESPONSE: "LOGIN_RESPONSE",
   LOGOUT: "LOGOUT",
+  // profile section
+  FETCH_PROFILE: "FETCH_PROFILE",
+  PROFILE_FETCHED: "PROFILE_FETCHED",
+  EDIT_PROFILE: "EDIT_PROFILE",
+  EDIT_PROFILE_RESPONSE: "EDIT_PROFILE_RESPONSE",
   // upgrade section
   FETCH_DPD: "FETCH_DPD",
   DPD_FETCHED: "DPD_FETCHED",
@@ -102,6 +107,14 @@ export const registerAction = (payload) => ({
 });
 export const loginAction = (payload) => ({
   type: ACTION_TYPES.LOGIN_RESPONSE,
+  payload: payload,
+});
+export const editProfileAction = (payload) => ({
+  type: ACTION_TYPES.EDIT_PROFILE_RESPONSE,
+  payload: payload,
+});
+export const fetchProfileAction = (payload) => ({
+  type: ACTION_TYPES.PROFILE_FETCHED,
   payload: payload,
 });
 export const logoutAction = (payload) => ({

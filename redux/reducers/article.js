@@ -27,6 +27,9 @@ const initialState = {
   registerResponse: [],
   loginResponse: [],
   user: [],
+  // profile section
+  editProfileResponse: [],
+  fetchProfileResponse: [],
   // upgrade section
   dpd: [],
   upgradeResponse: [],
@@ -87,7 +90,6 @@ const getArticles = (state = initialState, action) => {
       };
 
     case ACTION_TYPES.DELETE_ITEM:
-      console.log(state.cart);
       const deletedArray = state.cart.filter(
         (_, index) => index !== action.payload
       );
@@ -145,6 +147,21 @@ const getArticles = (state = initialState, action) => {
         };
       }
       return { ...state, isLogin: false, loginResponse: action.payload };
+
+    case ACTION_TYPES.PROFILE_FETCHED:
+      if (action.payload?.status === "success") {
+        return {
+          ...state,
+          fetchProfileResponse: action.payload?.account[0],
+          user: action.payload?.account[0],
+        };
+      } else {
+        return { ...state, user: state.user };
+      }
+
+    case ACTION_TYPES.EDIT_PROFILE_RESPONSE:
+      // console.log(action);
+      return { ...state, editProfileResponse: action.payload };
 
     case ACTION_TYPES.LOGOUT:
       // console.log(action);

@@ -29,7 +29,6 @@ export default function Article() {
   };
 
   useEffect(() => {
-    console.log(loginResponse?.data?.status);
     if (loginResponse?.data?.status == "success") {
       router.push("/home");
     }
@@ -59,7 +58,7 @@ export default function Article() {
             <p className="mb-4 font-semibold">Login</p>
             <div className="mb-6">
               <label
-                // for="email"
+                
                 className="block mb-2 text-sm font-medium text-gray-900"
               >
                 Email / Username / Phone

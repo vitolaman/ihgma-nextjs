@@ -15,10 +15,9 @@ export default function Article() {
   const profile = useSelector((state) => state?.articles?.user);
 
   useEffect(() => {
-    if(!profile || profile.length === 0){
-        router.push("/home/");
+    if (!profile || profile.length === 0) {
+      router.push("/home/");
     }
-    console.log(profile);
   }, [profile, router]);
 
   return (
@@ -29,13 +28,19 @@ export default function Article() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header />
-      <section className="bg-white py-8 lg:px-36 px-4 item-center justify-center flex">
-        <div className="max-w-sm rounded overflow-hidden shadow-lg">
+      <section className="bg-white-100 py-8 lg:px-36 px-4 item-center justify-center flex">
+        <div className="max-w-sm bg-slate-50 rounded-lg p-8 flex flex-col justify-items-center overflow-hidden shadow-lg">
           <div className="px-6 py-4">
-            <div className="font-bold text-center text-xl mb-2">{profile?.name}</div>
+            <div className="font-bold text-center text-xl mb-2">
+              User Profile
+            </div>
           </div>
           <table className="table-auto">
             <tbody>
+              <tr>
+                <td className="px-4 py-2">Username:</td>
+                <td className="px-4 py-2">{profile?.name}</td>
+              </tr>
               <tr>
                 <td className="px-4 py-2">Username:</td>
                 <td className="px-4 py-2">{profile?.username}</td>
@@ -58,6 +63,14 @@ export default function Article() {
               </tr>
             </tbody>
           </table>
+          <button
+            onClick={() => {
+              router.push("/edit-profile");
+            }}
+            className="mt-4 px-2 py-1 rounded text-base font-medium text-center text-white transition duration-500 ease-in-out transform bg-blue-800 mr-2 lg:px-10 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+          >
+            Edit Profile
+          </button>
         </div>
       </section>
       <Footer />

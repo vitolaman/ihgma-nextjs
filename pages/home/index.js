@@ -148,7 +148,6 @@ export default function Home() {
                   // const content = c.content;
                   // const unescapedHtml = unescape(content);
                   // const sanitizedHtml = unescapedHtml.replace(/\r?\n|\r/g, '');
-                  // console.log(sanitizedHtml);
                   return (
                     <div
                       key={index}

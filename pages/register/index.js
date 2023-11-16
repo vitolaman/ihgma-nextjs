@@ -98,7 +98,7 @@ export default function Article() {
           </div>
           <div className="mb-6">
             <label
-              // for="email"
+              
               className="block mb-2 text-sm font-medium text-gray-900"
             >
               Birthdate
@@ -114,7 +114,7 @@ export default function Article() {
           </div>
           <div className="mb-6">
             <label
-              // for="email"
+              
               className="block mb-2 text-sm font-medium text-gray-900"
             >
               Home Address
@@ -132,7 +132,7 @@ export default function Article() {
           </div>
           <div className="mb-6">
             <label
-              // for="email"
+              
               className="block mb-2 text-sm font-medium text-gray-900"
             >
               Phone Number
@@ -151,7 +151,7 @@ export default function Article() {
           </div>
           <div className="mb-6">
             <label
-              // for="email"
+              
               className="block mb-2 text-sm font-medium text-gray-900"
             >
               Email

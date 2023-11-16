@@ -44,10 +44,6 @@ export default function Article() {
     }
   }, [fetchedArticles, fetchedSidebarArticles?.artikel]);
 
-  useEffect(() => {
-    console.log(fetchedCountries);
-  }, [fetchedCountries]);
-
   const renderTitle = useCallback(() => {
     if (articleData.length === 0) {
       return "";
@@ -66,7 +62,6 @@ export default function Article() {
     }
     const imageUrl = articleData[0]?.main_picture;
 
-    console.log(imageUrl);
     return (
       <div
         className="w-full rounded-xl h-[32rem] bg-cover bg-bottom mb-4"

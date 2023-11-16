@@ -16,6 +16,7 @@ import {
   upgradeAction,
   fetchVacancyItemAction,
   fetchDpdAction,
+  fetchProfileAction,
 } from "../actions/articleAction";
 import { useSelector } from "react-redux";
 import axios from "axios";
@@ -33,7 +34,6 @@ function* fetchArticleAll() {
 function* fetchArticleSidebar() {
   const apiData = yield fetch(`https://ihgma.org/api/article/random/`); // Fetch call.
   const data = yield apiData.json(); // Convert to JSON.
-  console.log(data);
   yield put(fetchSidebarAction(data)); // Initiate the action on fetch success.
 }
 function* fetchArticle(parameter) {
@@ -41,7 +41,6 @@ function* fetchArticle(parameter) {
     `https://ihgma.org/api/article/id/${parameter?.id}`
   ); // Fetch call.
   const data = yield apiData.json(); // Convert to JSON.
-  console.log(data);
   yield put(fetchArticleAction(data)); // Initiate the action on fetch success.
 }
 function* fetchAdsHome() {
@@ -49,12 +48,10 @@ function* fetchAdsHome() {
     `https://ihgma.org/api/ads/aGZlNjQybnA4MTM0bjI4OA/welcome-page-01`
   ); // Fetch call.
   const data = yield apiData.json(); // Convert to JSON.
-  console.log(data);
   yield put(fetchAdsHomeAction(data)); // Initiate the action on fetch success.
 }
 
 function* addToCart(params) {
-  console.log(params.item);
   yield put(cartAdded(params.item)); // Initiate the action on fetch success.
 }
 
@@ -65,7 +62,6 @@ function* fetchAllItems() {
 }
 
 function* fetchItem(parameter) {
-  console.log("ini", parameter);
   const apiData = yield fetch(
     `https://ihgma.org/api/marketplace/id/${parameter?.id}`
   ); // Fetch call.
@@ -116,7 +112,6 @@ function* register(parameter) {
     },
     options
   );
-  console.log(response);
   yield put(registerAction(response)); // Initiate the action on fetch success.
 }
 
@@ -136,7 +131,6 @@ function* login(parameter) {
     },
     options
   );
-  console.log(response);
   yield put(loginAction(response));
 }
 
@@ -147,7 +141,6 @@ function* upgrade(parameter) {
     },
   };
   const payload = parameter?.params?.values;
-  console.log(parameter?.params);
   const response = yield call(
     axios.post,
     "https://ihgma.org/api/userprofile/upgrademember/aGZlNjQybnA4MTM0bjI4OA",
@@ -160,7 +153,6 @@ function* upgrade(parameter) {
     },
     options
   );
-  console.log(response);
   yield put(upgradeAction(response)); // Initiate the action on fetch success.
 }
 
@@ -170,6 +162,14 @@ function* fetchDpd(parameter) {
   ); // Fetch call.
   const data = yield apiData.json(); // Convert to JSON.
   yield put(fetchDpdAction(data)); // Initiate the action on fetch success.
+}
+
+function* fetchProfile(parameter) {
+  const apiData = yield fetch(
+    `https://ihgma.org/api/userprofile/view/aGZlNjQybnA4MTM0bjI4OA/${parameter?.payload?.username}`
+  ); // Fetch call.
+  const data = yield apiData.json(); // Convert to JSON.
+  yield put(fetchProfileAction(data)); // Initiate the action on fetch success.
 }
 
 export default function* watchArticles() {
@@ -188,4 +188,5 @@ export default function* watchArticles() {
   yield takeEvery(ACTION_TYPES.UPGRADE, upgrade);
   yield takeEvery(ACTION_TYPES.FETCH_VACANCY_ITEM, fetchVacancyItem);
   yield takeEvery(ACTION_TYPES.FETCH_DPD, fetchDpd);
+  yield takeEvery(ACTION_TYPES.FETCH_PROFILE, fetchProfile);
 }

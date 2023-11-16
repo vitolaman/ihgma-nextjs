@@ -19,10 +19,6 @@ function Header() {
   const isLogin = useSelector((state) => state?.articles?.isLogin);
   const user = useSelector((state) => state?.articles?.user);
 
-  useEffect(() => {
-    console.log(isShowMenu);
-  }, [isShowMenu]);
-
   function handleLogout() {
     setShowMenu(false);
     dispatch({
@@ -96,14 +92,14 @@ function Header() {
           <div
             className={
               isShowMenu
-                ? "absolute top-14 z-50 my-4 text-base list-none bg-white divide-y divide-gray-100 shadow"
+                ? "absolute top-14 right-6 z-50 my-4 text-base list-none bg-white divide-y divide-gray-100 shadow"
                 : "z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 shadow"
             }
             id="user-dropdown"
           >
             <div className="px-4 py-3">
               <span className="block text-sm font-medium text-gray-500 truncate">
-                {user?.name}
+                {user?.username}
               </span>
             </div>
             <ul className="py-2" aria-labelledby="user-menu-button">

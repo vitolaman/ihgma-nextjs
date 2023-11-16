@@ -24,7 +24,6 @@ export default function Article() {
   }
 
   function getSum(total, num) {
-    console.log(total);
     return total + Math.round(num);
   }
 
@@ -47,10 +46,6 @@ export default function Article() {
     },
     [dispatch]
   );
-
-  useEffect(() => {
-    console.log(cartList);
-  }, [cartList]);
 
   return (
     <div>
