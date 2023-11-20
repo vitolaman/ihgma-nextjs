@@ -17,6 +17,7 @@ import {
   fetchVacancyItemAction,
   fetchDpdAction,
   fetchProfileAction,
+  editProfileAction,
 } from "../actions/articleAction";
 import { useSelector } from "react-redux";
 import axios from "axios";
@@ -172,6 +173,36 @@ function* fetchProfile(parameter) {
   yield put(fetchProfileAction(data)); // Initiate the action on fetch success.
 }
 
+function* editProfile(parameter) {
+  const options = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+  const payload = parameter?.payload?.values;
+  console.log(parameter);
+  const response = yield call(
+    axios.post,
+    "https://ihgma.org/api/userprofile/edit/aGZlNjQybnA4MTM0bjI4OA",
+    {
+      uid: parameter?.payload?.uid,
+      username: payload?.username,
+      name: payload?.name,
+      email: payload?.email,
+      phone: payload?.phone,
+      birthdate: payload?.birthdate,
+      address: payload?.address,
+      id: payload?.id,
+      currentHotel: payload?.currentHotel,
+      hotelAddress: payload?.hotelAddress,
+      dpd: payload?.dpd
+    },
+    options
+  );
+  console.log(response);
+  yield put(editProfileAction(response)); // Initiate the action on fetch success.
+}
+
 export default function* watchArticles() {
   yield takeEvery(ACTION_TYPES.FETCH_ARTICLE_HOME, fetchArticleHome);
   yield takeEvery(ACTION_TYPES.FETCH_ARTICLE_ALL, fetchArticleAll);
@@ -189,4 +220,5 @@ export default function* watchArticles() {
   yield takeEvery(ACTION_TYPES.FETCH_VACANCY_ITEM, fetchVacancyItem);
   yield takeEvery(ACTION_TYPES.FETCH_DPD, fetchDpd);
   yield takeEvery(ACTION_TYPES.FETCH_PROFILE, fetchProfile);
+  yield takeEvery(ACTION_TYPES.EDIT_PROFILE, editProfile);
 }

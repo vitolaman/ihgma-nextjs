@@ -163,6 +163,10 @@ const getArticles = (state = initialState, action) => {
       // console.log(action);
       return { ...state, editProfileResponse: action.payload };
 
+    case ACTION_TYPES.EDIT_PROFILE_CLEAR:
+      // console.log(action);
+      return { ...state, editProfileResponse: [] };
+
     case ACTION_TYPES.LOGOUT:
       // console.log(action);
       return { ...state, isLogin: false, user: [], loginResponse: [] };

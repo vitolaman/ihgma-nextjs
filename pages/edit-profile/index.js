@@ -16,10 +16,17 @@ export default function Article() {
   const fetchedUser = useSelector(
     (state) => state?.articles?.fetchProfileResponse
   );
+  const dpdList = useSelector((state) => state?.articles?.dpd?.dpd);
 
   const editProfileResponse = useSelector(
     (state) => state?.articles?.editProfileResponse
   );
+
+  useEffect(() => {
+    dispatch({
+      type: ACTION_TYPES.FETCH_DPD,
+    });
+  }, [dispatch]);
 
   const [values, setValues] = useState({
     birthdate: new Date(),
@@ -31,7 +38,7 @@ export default function Article() {
     id: "",
     currentHotel: "",
     hotelAddress: "",
-    dpd: "",
+    dpd: "0061",
   });
 
   const handleInputChange = (event) => {
@@ -59,6 +66,12 @@ export default function Article() {
   }, []);
 
   useEffect(() => {
+    dispatch({
+      type: ACTION_TYPES.EDIT_PROFILE_CLEAR,
+    });
+  }, []);
+
+  useEffect(() => {
     if (fetchedUser) {
       setValues({
         birthdate: fetchedUser?.birth_date || new Date(),
@@ -67,6 +80,10 @@ export default function Article() {
         name: fetchedUser?.name || "",
         username: fetchedUser?.username || "",
         phone: fetchedUser?.phone || "",
+        currentHotel: fetchedUser?.hotel || "",
+        hotelAddress: fetchedUser?.hotel_address || "",
+        dpd: fetchedUser?.dpd || "",
+        id: fetchedUser?.id || "",
       });
     }
   }, [fetchedUser]);
@@ -191,6 +208,74 @@ export default function Article() {
               disabled
             ></input>
           </div>
+          {fetchedUser?.role == "Member" && (
+            <>
+              <div className="mb-6">
+                <label className="block mb-2 text-sm font-medium text-gray-900">
+                  ID
+                </label>
+                <input
+                  type="id"
+                  id="id"
+                  name="id"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                  placeholder="Nomor KTP / SIM"
+                  value={values.id}
+                  onChange={handleInputChange}
+                  required
+                ></input>
+              </div>
+              <div className="mb-6">
+                <label className="block mb-2 text-sm font-medium text-gray-900">
+                  Current Hotel
+                </label>
+                <input
+                  type="text"
+                  id="currentHotel"
+                  name="currentHotel"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                  placeholder="Current Hotel"
+                  value={values.currentHotel}
+                  onChange={handleInputChange}
+                  required
+                ></input>
+              </div>
+              <div className="mb-6">
+                <label className="block mb-2 text-sm font-medium text-gray-900">
+                  Hotel Address
+                </label>
+                <input
+                  type="text"
+                  id="hotelAddress"
+                  name="hotelAddress"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                  placeholder="Hotel Address"
+                  value={values.hotelAddress}
+                  onChange={handleInputChange}
+                  required
+                ></input>
+              </div>
+              <div className="mb-6">
+                <label className="block mb-2 text-sm font-medium text-gray-900">
+                  DPD (Dewan Pimpinan Daerah)
+                </label>
+                <select
+                  className="rounded-lg"
+                  name="dpd"
+                  id="dpd"
+                  onChange={handleInputChange}
+                  value={values.dpd}
+                  required
+                >
+                  {dpdList?.map((dpd, index) => (
+                    <option key={index} value={dpd?.code}>
+                      {dpd?.region}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </>
+          )}
           {editProfileResponse?.data?.status == "error" && (
             <p className="text-base text-red-600 font-bold mb-4 ml-2">
               ERROR: {editProfileResponse?.data?.msg}
@@ -198,7 +283,7 @@ export default function Article() {
           )}
           {editProfileResponse?.data?.status == "success" && (
             <p className="text-base text-green-600 font-bold mb-4 ml-2">
-              Pendaftaran berhasil, Silahkan tunggu konfirmasi dari admin
+              {editProfileResponse?.data?.msg}
             </p>
           )}
           <button
