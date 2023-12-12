@@ -9,12 +9,22 @@ import userRole from "../../libs/constant";
 function Header() {
   const router = useRouter();
   const dispatch = useDispatch();
-  const [isShowProfile, setShowProfile] = useState(false);
-  const [isShowMembership, setShowMembership] = useState(false);
-  const [isShowNews, setShowNews] = useState(false);
-  const [isShowStore, setShowStore] = useState(false);
-  const [isShowLive, setShowLive] = useState(false);
+  const [showState, setShowState] = useState({
+    profile: false,
+    membership: false,
+    news: false,
+    store: false,
+    live: false,
+  });
+
   const [isShowMenu, setShowMenu] = useState(false);
+
+  const toggleShowState = (key) => {
+    setShowState(prevState => ({
+      ...Object.fromEntries(Object.entries(prevState).map(([k, v]) => [k, k === key ? !v : false])),
+    }));
+  };
+  
 
   const isLogin = useSelector((state) => state?.articles?.isLogin);
   const user = useSelector((state) => state?.articles?.user);
@@ -168,7 +178,7 @@ function Header() {
             </li>
             <li className="relative ">
               <button
-                onClick={() => setShowProfile(!isShowProfile)}
+                onClick={() => toggleShowState('profile')}
                 className="flex items-center justify-between w-full py-2 pl-3 pr-4 font-medium text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 hover:text-blue-700 md:p-0 md:w-auto"
               >
                 Profile{" "}
@@ -190,7 +200,7 @@ function Header() {
               <div
                 id="dropdownNavbar"
                 className={
-                  isShowProfile
+                  showState.profile
                     ? "absolute z-10 font-normal bg-white divide-y divide-gray-100  shadow w-44"
                     : "z-10 hidden font-normal bg-white divide-y divide-gray-100  shadow w-44"
                 }
@@ -255,7 +265,7 @@ function Header() {
             {user?.role == userRole.User && (
               <li className="relative ">
                 <button
-                  onClick={() => setShowMembership(!isShowMembership)}
+                  onClick={toggleShowState('membership')}
                   className="flex items-center justify-between w-full py-2 pl-3 pr-4 font-medium text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:w-auto"
                 >
                   Membership{" "}
@@ -276,7 +286,7 @@ function Header() {
 
                 <div
                   className={
-                    isShowMembership
+                    showState.membership
                       ? "absolute z-10 font-normal bg-white divide-y divide-gray-100  shadow w-44"
                       : "z-10 hidden font-normal bg-white divide-y divide-gray-100  shadow w-44"
                   }
@@ -301,7 +311,7 @@ function Header() {
             )}
             <li className="relative">
               <button
-                onClick={() => setShowNews(!isShowNews)}
+                onClick={() => toggleShowState('news')}
                 className="flex items-center justify-between w-full py-2 pl-3 pr-4 font-medium text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:w-auto"
               >
                 News{" "}
@@ -322,7 +332,7 @@ function Header() {
 
               <div
                 className={
-                  isShowNews
+                  showState.news
                     ? "absolute z-10 font-normal bg-white divide-y divide-gray-100 shadow w-44"
                     : "z-10 hidden font-normal bg-white divide-y divide-gray-100 shadow w-44"
                 }
@@ -410,7 +420,7 @@ function Header() {
             </li>
             <li>
               <button
-                onClick={() => setShowStore(!isShowStore)}
+                onClick={() => toggleShowState('store')}
                 className="flex items-center justify-between w-full py-2 pl-3 pr-4 font-medium text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:w-auto"
               >
                 Store{" "}
@@ -430,7 +440,7 @@ function Header() {
               </button>
               <div
                 className={
-                  isShowStore
+                  showState.store
                     ? "z-10 absolute font-normal bg-white divide-y divide-gray-100  shadow w-44"
                     : "z-10 hidden font-normal bg-white divide-y divide-gray-100  shadow w-44"
                 }
@@ -470,7 +480,7 @@ function Header() {
             </li>
             <li className="relative">
               <button
-                onClick={() => setShowLive(!isShowLive)}
+                onClick={() => toggleShowState('live')}
                 className="flex items-center justify-between w-full py-2 pl-3 pr-4 font-medium text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:w-auto"
               >
                 Live{" "}
@@ -491,7 +501,7 @@ function Header() {
 
               <div
                 className={
-                  isShowLive
+                  showState.live
                     ? "z-10 absolute font-normal bg-white divide-y divide-gray-100  shadow w-44"
                     : "z-10 hidden font-normal bg-white divide-y divide-gray-100  shadow w-44"
                 }

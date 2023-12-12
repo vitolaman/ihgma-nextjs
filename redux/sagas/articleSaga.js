@@ -180,7 +180,6 @@ function* editProfile(parameter) {
     },
   };
   const payload = parameter?.payload?.values;
-  console.log(parameter);
   const response = yield call(
     axios.post,
     "https://ihgma.org/api/userprofile/edit/aGZlNjQybnA4MTM0bjI4OA",
@@ -199,7 +198,6 @@ function* editProfile(parameter) {
     },
     options
   );
-  console.log(response);
   yield put(editProfileAction(response)); // Initiate the action on fetch success.
 }
 
