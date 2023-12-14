@@ -30,7 +30,7 @@ export default function Article() {
 
   useEffect(() => {
     if (loginResponse?.data?.status == "success") {
-      router.push("/home");
+      router.push("/profile");
     }
   }, [loginResponse, router]);
 
